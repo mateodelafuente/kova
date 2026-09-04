@@ -3,10 +3,14 @@ import { universes } from '../../data/site';
 ---
 <section class="section universe">
   <div class="container">
-    <h2>Un mismo sistema, muchos universos</h2>
+    <h2 data-reveal>Un mismo sistema, muchos universos</h2>
     <div class="universe__grid">
-      {universes.map((u) => (
-        <div class:list={['universe__tile', { 'universe__tile--active': u.active }]}>
+      {universes.map((u, i) => (
+        <div
+          class:list={['universe__tile', { 'universe__tile--active': u.active }]}
+          data-reveal
+          style={{ '--d': i }}
+        >
           <span class="universe__name">{u.name}</span>
           <span class="universe__status">{u.status}</span>
         </div>

@@ -5,7 +5,7 @@ import { featuredProducts } from '../../data/products';
 ---
 <section class="section collection" id="coleccion">
   <div class="container">
-    <div class="collection__head">
+    <div class="collection__head" data-reveal data-reveal-repeat>
       <div>
         <span class="eyebrow">La colección</span>
         <h2>Cuatro productos, un sistema</h2>
@@ -16,7 +16,9 @@ import { featuredProducts } from '../../data/products';
     <PillarRow />
 
     <div class="collection__grid">
-      {featuredProducts.map((product) => <ProductCard product={product} />)}
+      {featuredProducts.map((product, i) => (
+        <ProductCard product={product} revealDelay={i} />
+      ))}
     </div>
   </div>
 </section>

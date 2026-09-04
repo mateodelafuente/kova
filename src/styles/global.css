@@ -175,6 +175,26 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   color: var(--text-muted);
 }
 
+/* ---- Aparición al scrollear ----
+   Cualquier elemento con [data-reveal] arranca invisible y un poco más
+   abajo; en cuanto entra en pantalla, el script al final de BaseLayout le
+   agrega .is-visible y aparece con un fundido suave. Por default pasa una
+   sola vez; sumando [data-reveal-repeat] se esconde de nuevo al salir de
+   pantalla y repite cada vez (ver BaseLayout.astro). "--d" (0,1,2...)
+   escalona varios elementos seguidos, como los productos o los pilares,
+   para que no aparezcan todos de golpe. Sin JS (o con motion reducido)
+   queda visible directo — nunca depende de la animación para poder leerse. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transition-delay: calc(var(--d, 0) * 90ms);
+}
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px; height: 1px;

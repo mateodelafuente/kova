@@ -8,8 +8,8 @@ import Icon from './Icon.astro';
 import { pillars } from '../data/site';
 ---
 <div class="pillar-row">
-  {pillars.map((pillar) => (
-    <div class="pillar">
+  {pillars.map((pillar, i) => (
+    <div class="pillar" data-reveal data-reveal-repeat style={{ '--d': i }}>
       <Icon name={pillar.icon} size={18} />
       <div>
         <span class="pillar__name">{pillar.name.toUpperCase()}</span>

@@ -2,10 +2,14 @@
 import Icon from './Icon.astro';
 import type { Product } from '../data/products';
 
-interface Props { product: Product }
-const { product } = Astro.props;
+interface Props {
+  product: Product;
+  /** Orden dentro de la grilla, para escalonar la animación de aparición */
+  revealDelay?: number;
+}
+const { product, revealDelay = 0 } = Astro.props;
 ---
-<article class="card">
+<article class="card" data-reveal data-reveal-repeat style={{ '--d': revealDelay }}>
   <div class="placeholder card__image">
     <Icon name={product.icon} size={44} />
     <span class="placeholder__label">{product.name}</span>

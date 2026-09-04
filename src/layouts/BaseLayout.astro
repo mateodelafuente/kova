@@ -35,10 +35,15 @@ const {
 
     <!--
       Aplica el tema guardado ANTES de pintar la página, para que no
-      haya un "flash" del tema por defecto al cargar.
+      haya un "flash" del tema por defecto al cargar. De paso marca
+      <html class="js"> — las animaciones de aparición (global.css,
+      [data-reveal]) sólo se activan con esa clase, así que sin
+      JavaScript el contenido nunca queda escondido esperando una
+      animación que no va a pasar.
     -->
     <script is:inline>
       (function () {
+        document.documentElement.classList.add('js');
         try {
           var stored = localStorage.getItem('kova-theme');
           document.documentElement.dataset.theme = stored === 'dark' ? 'dark' : 'light';
@@ -55,5 +60,39 @@ const {
       <slot />
     </main>
     <Footer />
+
+    <!--
+      Anima cualquier [data-reveal] al entrar en pantalla (incluido lo que ya
+      está visible al cargar, como el hero) — por default una sola vez por
+      visita. Los que además tienen [data-reveal-repeat] (la colección para
+      abajo) se esconden de nuevo al salir de pantalla, así que repiten la
+      animación si el visitante sube y vuelve a bajar. Sin IntersectionObserver,
+      aparece todo directo y fijo.
+    -->
+    <script is:inline>
+      (function () {
+        var els = document.querySelectorAll('[data-reveal]');
+        if (!('IntersectionObserver' in window)) {
+          els.forEach(function (el) { el.classList.add('is-visible'); });
+          return;
+        }
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              var el = entry.target;
+              var repeats = el.hasAttribute('data-reveal-repeat');
+              if (entry.isIntersecting) {
+                el.classList.add('is-visible');
+                if (!repeats) io.unobserve(el);
+              } else if (repeats) {
+                el.classList.remove('is-visible');
+              }
+            });
+          },
+          { threshold: 0.15, rootMargin: '0px 0px -8% 0px' }
+        );
+        els.forEach(function (el) { io.observe(el); });
+      })();
+    </script>
   </body>
 </html>

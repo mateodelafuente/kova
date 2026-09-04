@@ -1,33 +1,25 @@
 ---
 import { brand } from '../../data/site';
-// Única fuente de la foto: src/img/hero.webp (Vite se encarga de copiarla
-// y darle una URL final — no hace falta ningún duplicado en public/).
-import heroPhoto from '../../img/hero.webp';
+import HeroSlideshow from '../HeroSlideshow.astro';
 ---
 <section class="hero">
   <div class="container hero__grid">
     <div class="hero__copy">
-      <span class="eyebrow">{brand.name} {brand.sub}</span>
-      <h1>El cuidado diario de tu mascota, mejor pensado.</h1>
-      <p class="hero__lead">
+      <span class="eyebrow" data-reveal style={{ '--d': 0 }}>{brand.name} {brand.sub}</span>
+      <h1 data-reveal style={{ '--d': 1 }}>El cuidado diario de tu mascota, mejor pensado.</h1>
+      <p class="hero__lead" data-reveal style={{ '--d': 2 }}>
         Comederos, fuentes y accesorios inteligentes con diseño que querés
         tener a la vista. Tecnología con propósito, para quienes más querés.
       </p>
-      <div class="hero__actions">
+      <div class="hero__actions" data-reveal style={{ '--d': 3 }}>
         <a href="#coleccion" class="btn">Ver la colección</a>
         <a href="/marca" class="btn-ghost">Conocer KOVA</a>
       </div>
     </div>
 
-    <img
-      src={heroPhoto.src}
-      alt="Gato y perro golden retriever junto al comedero y la fuente inteligente KOVA Pets"
-      class="hero__image"
-      width={heroPhoto.width}
-      height={heroPhoto.height}
-      loading="eager"
-      fetchpriority="high"
-    />
+    <div class="hero__image-frame" data-reveal style={{ '--d': 1 }}>
+      <HeroSlideshow />
+    </div>
   </div>
 </section>
 
@@ -52,17 +44,13 @@ import heroPhoto from '../../img/hero.webp';
   .hero__lead { max-width: 30rem; font-size: var(--step-0); }
   .hero__actions { display: flex; gap: 0.9rem; flex-wrap: wrap; margin-top: 0.1rem; }
 
-  .hero__image {
-    display: block;
+  /* El marco recorta el slideshow que vive adentro. */
+  .hero__image-frame {
     width: 100%;
-    height: auto; /* sin esto, el atributo height="612" del <img> gana y
-                     desarma el recuadro — aspect-ratio necesita height:auto
-                     para poder calcular el alto a partir del ancho real. */
-    min-width: 0;  /* evita que la imagen empuje la columna del grid */
+    min-width: 0; /* evita que la imagen empuje la columna del grid */
     aspect-ratio: 5 / 3;
     min-height: 8rem;
-    object-fit: cover;
-    object-position: 50% 22%;
+    overflow: hidden;
   }
 
   .signature-band {
@@ -76,6 +64,6 @@ import heroPhoto from '../../img/hero.webp';
 
   @media (max-width: 860px) {
     .hero__grid { grid-template-columns: 1fr; }
-    .hero__image { aspect-ratio: 16 / 8; min-height: 9rem; }
+    .hero__image-frame { aspect-ratio: 16 / 8; min-height: 9rem; }
   }
 </style>
