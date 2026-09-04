@@ -1,0 +1,57 @@
+---
+import { universes } from '../../data/site';
+---
+<section class="section universe">
+  <div class="container">
+    <h2>Un mismo sistema, muchos universos</h2>
+    <div class="universe__grid">
+      {universes.map((u) => (
+        <div class:list={['universe__tile', { 'universe__tile--active': u.active }]}>
+          <span class="universe__name">{u.name}</span>
+          <span class="universe__status">{u.status}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .universe h2 { font-size: var(--step-2); font-weight: 600; margin-bottom: 2rem; }
+
+  .universe__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .universe__tile {
+    min-height: 8.5rem;
+    padding: 1.6rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+  }
+  .universe__tile--active {
+    background: var(--invert-bg);
+    border-color: var(--invert-bg);
+  }
+  .universe__name {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+  .universe__tile--active .universe__name { color: var(--invert-text); }
+  .universe__status {
+    font-size: 0.625rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .universe__tile--active .universe__status { color: var(--accent); }
+
+  @media (max-width: 760px) {
+    .universe__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

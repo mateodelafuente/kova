@@ -1,0 +1,52 @@
+---
+import ProductCard from '../ProductCard.astro';
+import { featuredProducts } from '../../data/products';
+---
+<section class="section collection">
+  <div class="container">
+    <div class="collection__head">
+      <div>
+        <span class="eyebrow">La colección</span>
+        <h2>Cuatro productos, un sistema</h2>
+      </div>
+      <a href="/productos" class="collection__all">Ver todo</a>
+    </div>
+
+    <div class="collection__grid">
+      {featuredProducts.map((product) => <ProductCard product={product} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .collection__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 2.75rem;
+  }
+  .collection__head h2 { font-size: var(--step-2); font-weight: 600; margin-top: 0.5rem; }
+  .collection__all {
+    font-size: var(--step--1);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .collection__all:hover { color: var(--accent); }
+
+  .collection__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 960px) {
+    .collection__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 520px) {
+    .collection__grid { grid-template-columns: 1fr; }
+    .collection__head { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  }
+</style>

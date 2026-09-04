@@ -1,0 +1,17 @@
+# dependencias
+node_modules/
+
+# build / cache
+dist/
+.astro/
+
+# entornos
+.env
+.env.production
+.env.*.local
+
+# sistema / editor
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*

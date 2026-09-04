@@ -1,0 +1,82 @@
+/* =========================================================================
+   KOVA · Design tokens
+   Una sola fuente de verdad para color, tipografía y espaciado.
+   El tema (claro / oscuro) sólo cambia los tokens "semánticos" de abajo;
+   los componentes nunca usan un color crudo, siempre un token semántico.
+   ========================================================================= */
+
+:root {
+  /* ---- Paleta base KOVA (fija, no cambia entre temas) ---- */
+  --kova-carbon:   #0D0D0F;
+  --kova-graphite: #282726;
+  --kova-gold:     #D4AF37;
+  --kova-ivory:    #F6F2EA;
+  --kova-sand:     #DED3C5;
+  --kova-taupe:    #A99A89;
+  --kova-white:    #FFFFFF;
+
+  /* ---- Tipografía ---- */
+  --font-serif: "Cormorant Garamond", "Hoefler Text", Garamond, "Times New Roman", serif;
+  --font-sans:  "Manrope", -apple-system, "Segoe UI", system-ui, sans-serif;
+
+  /* Escala tipográfica fluida (se adapta sola entre mobile y desktop) */
+  --step--1: clamp(0.78rem, 0.74rem + 0.18vw, 0.875rem);
+  --step-0:  clamp(0.94rem, 0.90rem + 0.20vw, 1rem);
+  --step-1:  clamp(1.05rem, 0.95rem + 0.45vw, 1.30rem);
+  --step-2:  clamp(1.45rem, 1.15rem + 1.30vw, 2.20rem);
+  --step-3:  clamp(1.95rem, 1.40rem + 2.60vw, 3.40rem);
+  --step-4:  clamp(2.40rem, 1.50rem + 4.40vw, 4.60rem);
+
+  /* ---- Espaciado y layout ---- */
+  --space-section: clamp(3.5rem, 2rem + 6vw, 6.5rem);
+  --gutter:        clamp(1.25rem, 0.4rem + 3.2vw, 4rem);
+  --max-width:     1440px;
+
+  /* ---- Movimiento ---- */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* =========================================================================
+   Tema CLARO — "Warm" (por defecto)
+   ========================================================================= */
+:root,
+[data-theme="light"] {
+  --bg:            var(--kova-ivory);
+  --surface:       var(--kova-white);
+  --surface-alt:   var(--kova-sand);
+  --text:          var(--kova-graphite);
+  --text-strong:   var(--kova-carbon);
+  --text-muted:    var(--kova-taupe);
+  --border:        #e4dccd;
+  --border-soft:   #eee7da;
+  --accent:        var(--kova-gold);
+  --btn-bg:        var(--kova-carbon);
+  --btn-text:      var(--kova-ivory);
+  --invert-bg:     var(--kova-carbon);
+  --invert-text:   var(--kova-ivory);
+  --placeholder:   var(--kova-sand);
+
+  color-scheme: light;
+}
+
+/* =========================================================================
+   Tema OSCURO — "Carbon"
+   ========================================================================= */
+[data-theme="dark"] {
+  --bg:            var(--kova-carbon);
+  --surface:       #161618;
+  --surface-alt:   #161618;
+  --text:          var(--kova-sand);
+  --text-strong:   var(--kova-ivory);
+  --text-muted:    var(--kova-taupe);
+  --border:        #242426;
+  --border-soft:   #242426;
+  --accent:        var(--kova-gold);
+  --btn-bg:        var(--kova-ivory);
+  --btn-text:      var(--kova-carbon);
+  --invert-bg:     var(--kova-ivory);
+  --invert-text:   var(--kova-carbon);
+  --placeholder:   #161618;
+
+  color-scheme: dark;
+}

@@ -1,0 +1,50 @@
+---
+/**
+ * Botón para cambiar el tono claro / oscuro.
+ * El tema se guarda en localStorage y se aplica antes de pintar la página
+ * (ver el script inline en BaseLayout.astro) para que no haya "parpadeo".
+ */
+import Icon from './Icon.astro';
+---
+<button
+  type="button"
+  class="theme-toggle"
+  id="theme-toggle"
+  aria-label="Cambiar tono claro u oscuro"
+  title="Cambiar tono"
+>
+  <span class="theme-toggle__icon theme-toggle__icon--sun"><Icon name="sun" size={18} /></span>
+  <span class="theme-toggle__icon theme-toggle__icon--moon"><Icon name="moon" size={18} /></span>
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--border);
+    color: var(--text-strong);
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  .theme-toggle__icon { display: none; }
+  :global([data-theme='light']) .theme-toggle__icon--moon { display: inline-flex; }
+  :global([data-theme='dark']) .theme-toggle__icon--sun { display: inline-flex; }
+</style>
+
+<script>
+  const btn = document.getElementById('theme-toggle');
+  btn?.addEventListener('click', () => {
+    const root = document.documentElement;
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem('kova-theme', next);
+    } catch (e) {
+      /* almacenamiento no disponible — el cambio igual aplica en esta visita */
+    }
+  });
+</script>

@@ -1,0 +1,63 @@
+---
+import Icon from '../Icon.astro';
+import { brand } from '../../data/site';
+---
+<section class="hero">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <span class="eyebrow">{brand.name} {brand.sub}</span>
+      <h1>El cuidado diario de tu mascota, mejor pensado.</h1>
+      <p class="hero__lead">
+        Comederos, fuentes y accesorios inteligentes con diseño que querés
+        tener a la vista. Tecnología con propósito, para quienes más querés.
+      </p>
+      <div class="hero__actions">
+        <a href="/productos" class="btn">Ver la colección</a>
+        <a href="/marca" class="btn-ghost">Conocer KOVA</a>
+      </div>
+    </div>
+
+    <div class="placeholder hero__image">
+      <Icon name="suite" size={52} />
+      <span class="placeholder__label">Fotografía · set completo en interior</span>
+    </div>
+  </div>
+</section>
+
+<!-- Firma sutil de la submarca: presente, sin competir con el titular -->
+<div class="signature-band">
+  <div class="container signature-band__inner">
+    <p class="signature">{brand.tagline}</p>
+  </div>
+</div>
+
+<style>
+  .hero__grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    align-items: center;
+    gap: clamp(2rem, 1rem + 4vw, 4rem);
+    padding-block: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+  }
+
+  .hero__copy { display: flex; flex-direction: column; gap: 1.4rem; }
+  .hero__copy h1 { font-size: var(--step-4); font-weight: 600; }
+  .hero__lead { max-width: 30rem; font-size: var(--step-1); }
+  .hero__actions { display: flex; gap: 0.9rem; flex-wrap: wrap; margin-top: 0.3rem; }
+
+  .hero__image { aspect-ratio: 4 / 5; min-height: 20rem; }
+
+  .signature-band {
+    border-block: 1px solid var(--border);
+  }
+  .signature-band__inner {
+    display: flex;
+    justify-content: flex-end;
+    padding-block: 0.9rem;
+  }
+
+  @media (max-width: 860px) {
+    .hero__grid { grid-template-columns: 1fr; }
+    .hero__image { aspect-ratio: 16 / 10; min-height: 14rem; }
+  }
+</style>

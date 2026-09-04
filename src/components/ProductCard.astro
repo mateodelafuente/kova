@@ -1,0 +1,34 @@
+---
+import Icon from './Icon.astro';
+import type { Product } from '../data/products';
+
+interface Props { product: Product }
+const { product } = Astro.props;
+---
+<article class="card">
+  <div class="placeholder card__image">
+    <Icon name={product.icon} size={44} />
+    <span class="placeholder__label">{product.name}</span>
+  </div>
+  <div class="card__body">
+    <h3>{product.name}</h3>
+    <p class="card__desc">{product.tagline}.</p>
+    <span class="card__price">{product.price ?? '[precio]'} ARS</span>
+    <a href={`/productos/${product.slug}`} class="btn-ghost card__cta">Ver producto</a>
+  </div>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+  }
+  .card__image { width: 100%; aspect-ratio: 4 / 3; border: 0; border-bottom: 1px solid var(--border-soft); }
+  .card__body { padding: 1.4rem 1.4rem 1.6rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .card__body h3 { font-size: var(--step-1); }
+  .card__desc { font-size: var(--step--1); color: var(--text); }
+  .card__price { font-size: var(--step--1); color: var(--text-muted); margin-top: 0.3rem; }
+  .card__cta { margin-top: 0.6rem; align-self: flex-start; padding: 0.7rem 1.2rem; }
+</style>

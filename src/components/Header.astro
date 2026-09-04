@@ -1,0 +1,121 @@
+---
+/**
+ * Cabecera del sitio: marca + navegación + botón de tono + acceso a compra.
+ * En mobile la navegación se colapsa detrás del botón de menú.
+ */
+import { nav } from '../data/site';
+import BrandMark from './BrandMark.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import Icon from './Icon.astro';
+---
+<header class="header" id="site-header">
+  <div class="container header__inner">
+    <BrandMark />
+
+    <nav class="header__nav" aria-label="Navegación principal">
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+
+    <div class="header__actions">
+      <a href="/productos" class="header__shop">Comprar</a>
+      <ThemeToggle />
+      <button
+        type="button"
+        class="header__menu-btn"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+      >
+        <Icon name="menu" size={22} />
+      </button>
+    </div>
+  </div>
+
+  <nav class="header__mobile" id="mobile-nav" aria-label="Navegación" hidden>
+    {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    <a href="/productos" class="header__mobile-shop">Comprar</a>
+  </nav>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1.15rem;
+  }
+
+  .header__nav {
+    display: flex;
+    gap: clamp(1.25rem, 0.5rem + 2vw, 2.25rem);
+    font-size: var(--step--1);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .header__nav a:hover { color: var(--accent); }
+
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .header__shop {
+    font-size: var(--step--1);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .header__shop:hover { color: var(--accent); }
+
+  .header__menu-btn {
+    display: none;
+    color: var(--text-strong);
+  }
+
+  /* ---- Menú mobile ---- */
+  .header__mobile {
+    display: none;
+    flex-direction: column;
+    padding: 0.5rem var(--gutter) 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .header__mobile a {
+    padding-block: 0.9rem;
+    font-size: var(--step-0);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .header__mobile-shop { color: var(--accent); font-weight: 600; }
+  .header[data-open='true'] .header__mobile { display: flex; }
+
+  @media (max-width: 860px) {
+    .header__nav,
+    .header__shop { display: none; }
+    .header__menu-btn { display: inline-flex; }
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header');
+  const btn = header?.querySelector<HTMLButtonElement>('.header__menu-btn');
+  const mobileNav = document.getElementById('mobile-nav');
+
+  btn?.addEventListener('click', () => {
+    const open = header?.dataset.open === 'true';
+    if (header) header.dataset.open = open ? 'false' : 'true';
+    btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+    btn.setAttribute('aria-label', open ? 'Abrir menú' : 'Cerrar menú');
+    if (mobileNav) mobileNav.hidden = open;
+  });
+</script>
