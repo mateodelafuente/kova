@@ -1,11 +1,11 @@
 ---
 /**
  * Cabecera del sitio: sólo la marca a la izquierda y, a la derecha, acceso
- * a la colección (carrito) y el switch de tono. Sin navegación de
- * productos — la colección se recorre scrolleando desde la home.
+ * a la colección (carrito). Sin navegación de productos — la colección se
+ * recorre scrolleando desde la home. Sin switch de tono — KOVA usa una
+ * sola paleta (Warm), es parte de la identidad de marca.
  */
 import BrandMark from './BrandMark.astro';
-import ThemeToggle from './ThemeToggle.astro';
 ---
 <header class="header" id="site-header">
   <div class="container header__inner">
@@ -15,7 +15,6 @@ import ThemeToggle from './ThemeToggle.astro';
       <a href="/#coleccion" class="cart-link" aria-label="Ver la colección">
         <span class="cart-link__icon"></span>
       </a>
-      <ThemeToggle />
     </div>
   </div>
 </header>

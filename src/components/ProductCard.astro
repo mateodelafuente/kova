@@ -10,10 +10,21 @@ interface Props {
 const { product, revealDelay = 0 } = Astro.props;
 ---
 <article class="card" data-reveal data-reveal-repeat style={{ '--d': revealDelay }}>
-  <div class="placeholder card__image">
-    <Icon name={product.icon} size={44} />
-    <span class="placeholder__label">{product.name}</span>
-  </div>
+  {product.photo ? (
+    <img
+      src={product.photo.src}
+      alt={product.tagline}
+      class="card__image"
+      width={product.photo.width}
+      height={product.photo.height}
+      loading="lazy"
+    />
+  ) : (
+    <div class="placeholder card__image">
+      <Icon name={product.icon} size={44} />
+      <span class="placeholder__label">{product.name}</span>
+    </div>
+  )}
   <div class="card__body">
     <h3>{product.name}</h3>
     <p class="card__desc">{product.tagline}.</p>
@@ -29,7 +40,16 @@ const { product, revealDelay = 0 } = Astro.props;
     background: var(--surface);
     border: 1px solid var(--border-soft);
   }
-  .card__image { width: 100%; aspect-ratio: 4 / 2.2; border: 0; border-bottom: 1px solid var(--border-soft); }
+  .card__image {
+    display: block;
+    width: 100%;
+    height: auto; /* si no, el atributo height del <img> gana sobre
+                     aspect-ratio y cada foto queda con su alto real */
+    aspect-ratio: 4 / 2.2;
+    border: 0;
+    border-bottom: 1px solid var(--border-soft);
+    object-fit: cover;
+  }
   .card__body { padding: 0.95rem 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.3rem; }
   .card__body h3 { font-size: var(--step-1); }
   .card__desc { font-size: var(--step--1); color: var(--text); }

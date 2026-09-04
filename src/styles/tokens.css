@@ -1,8 +1,10 @@
 /* =========================================================================
    KOVA · Design tokens
-   Una sola fuente de verdad para color, tipografía y espaciado.
-   El tema (claro / oscuro) sólo cambia los tokens "semánticos" de abajo;
-   los componentes nunca usan un color crudo, siempre un token semántico.
+   Una sola fuente de verdad para color, tipografía y espaciado. Una sola
+   paleta ("Warm") — es una decisión de identidad de marca, no algo que se
+   vaya a ampliar a un modo oscuro después. Los componentes igual usan
+   siempre un token semántico (--bg, --text...) y nunca un color crudo,
+   para que cambiar un color acá lo cambie en todo el sitio de una vez.
    ========================================================================= */
 
 :root {
@@ -39,10 +41,9 @@
 }
 
 /* =========================================================================
-   Tema CLARO — "Warm" (por defecto)
+   Tema — "Warm" (el único)
    ========================================================================= */
-:root,
-[data-theme="light"] {
+:root {
   --bg:            var(--kova-ivory);
   --surface:       var(--kova-white);
   --surface-alt:   var(--kova-sand);
@@ -59,26 +60,4 @@
   --placeholder:   var(--kova-sand);
 
   color-scheme: light;
-}
-
-/* =========================================================================
-   Tema OSCURO — "Carbon"
-   ========================================================================= */
-[data-theme="dark"] {
-  --bg:            var(--kova-carbon);
-  --surface:       #161618;
-  --surface-alt:   #161618;
-  --text:          var(--kova-sand);
-  --text-strong:   var(--kova-ivory);
-  --text-muted:    var(--kova-taupe);
-  --border:        #242426;
-  --border-soft:   #242426;
-  --accent:        var(--kova-gold);
-  --btn-bg:        var(--kova-ivory);
-  --btn-text:      var(--kova-carbon);
-  --invert-bg:     var(--kova-ivory);
-  --invert-text:   var(--kova-carbon);
-  --placeholder:   #161618;
-
-  color-scheme: dark;
 }

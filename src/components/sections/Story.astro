@@ -1,11 +1,16 @@
 ---
-import Icon from '../Icon.astro';
+import heroPhoto from '../../img/hero.webp';
 ---
 <section class="section story" id="historia">
   <div class="container story__grid">
-    <div class="placeholder story__image" data-reveal>
-      <Icon name="portrait" size={44} />
-      <span class="placeholder__label">Retrato · fundadora</span>
+    <div class="story__image" data-reveal>
+      <img
+        src={heroPhoto.src}
+        alt="Gato y perro golden retriever junto a los productos KOVA Pets"
+        width={heroPhoto.width}
+        height={heroPhoto.height}
+        loading="lazy"
+      />
     </div>
     <div class="story__copy" data-reveal style={{ '--d': 1 }}>
       <span class="eyebrow">Nuestra historia</span>
@@ -27,7 +32,14 @@ import Icon from '../Icon.astro';
     gap: clamp(2rem, 1rem + 4vw, 3.5rem);
     align-items: center;
   }
-  .story__image { aspect-ratio: 4 / 2.7; }
+  .story__image { aspect-ratio: 4 / 2.7; overflow: hidden; }
+  .story__image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 22%;
+  }
   .story__copy { display: flex; flex-direction: column; gap: 1.1rem; }
   .story__copy h2 { font-size: var(--step-2); font-weight: 600; }
   .story__copy p { max-width: 30rem; font-size: var(--step-0); }

@@ -1,14 +1,21 @@
 ---
 /**
- * Los cuatro pilares de marca (Intelligent, Refined, Thoughtful, Trusted),
- * en una fila compacta. Vive dentro de la sección de Colección, debajo del
- * título — da el contexto de marca justo antes de mostrar los productos.
+ * Los pilares de marca, en una fila compacta. Por default usa los 4
+ * pilares generales (src/data/site.ts) y vive dentro de la sección de
+ * Colección, debajo del título. Pasando `items` se puede reusar con
+ * otra lista — por ejemplo, la página de marca suma un quinto pilar
+ * (Pet Wellbeing) que sólo tiene sentido ahí.
  */
 import Icon from './Icon.astro';
-import { pillars } from '../data/site';
+import { pillars, type Pillar } from '../data/site';
+
+interface Props {
+  items?: Pillar[];
+}
+const { items = pillars } = Astro.props;
 ---
-<div class="pillar-row">
-  {pillars.map((pillar, i) => (
+<div class="pillar-row" style={`--cols: ${items.length}`}>
+  {items.map((pillar, i) => (
     <div class="pillar" data-reveal data-reveal-repeat style={{ '--d': i }}>
       <Icon name={pillar.icon} size={18} />
       <div>
@@ -22,7 +29,7 @@ import { pillars } from '../data/site';
 <style>
   .pillar-row {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
     gap: 1.25rem;
     padding-block: 1rem;
     margin-bottom: clamp(1.5rem, 1rem + 2vw, 2.25rem);

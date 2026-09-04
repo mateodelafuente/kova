@@ -1,12 +1,49 @@
 ---
 /**
  * Página de marca: a dónde lleva "Conocer KOVA" desde la home.
- * Por ahora sólo tiene la historia; cuando haya más contenido de marca
- * (valores K-O-V-A, posicionamiento) se suma acá como nuevas secciones.
+ * Contenido tomado de ReglasDeNegocio.txt (el brief del cliente) — el
+ * copy de esta página no se inventa acá, sale de ahí.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Story from '../components/sections/Story.astro';
+import Universe from '../components/sections/Universe.astro';
+import Philosophy from '../components/sections/Philosophy.astro';
+import PillarRow from '../components/PillarRow.astro';
 import { brand } from '../data/site';
+
+const kovaLetters = [
+  {
+    letter: 'K',
+    word: 'Knowledge',
+    desc: 'Investigamos y elegimos con conocimiento para ofrecer lo que realmente funciona.',
+  },
+  {
+    letter: 'O',
+    word: 'Originality',
+    desc: 'Diseñamos con originalidad, innovación y personalidad.',
+  },
+  {
+    letter: 'V',
+    word: 'Value',
+    desc: 'Creamos valor real a través de calidad, funcionalidad y durabilidad.',
+  },
+  {
+    letter: 'A',
+    word: 'Adaptability',
+    desc: 'Evolucionamos contigo, adaptándonos a nuevas necesidades y estilos de vida.',
+  },
+];
+
+// Los mismos 4 pilares generales + Pet Wellbeing, que en el brief es una
+// suma específica de KOVA Pets — por eso vive acá y no en el listado
+// general de src/data/site.ts que usa la home.
+const marcaPillars = [
+  { name: 'Intelligent', desc: 'Tecnología que resuelve.', icon: 'spark' },
+  { name: 'Refined', desc: 'Diseño sofisticado y atemporal.', icon: 'gem' },
+  { name: 'Thoughtful', desc: 'Productos elegidos con intención.', icon: 'compass' },
+  { name: 'Pet Wellbeing', desc: 'Bienestar y felicidad para quienes más queremos.', icon: 'heart' },
+  { name: 'Trusted', desc: 'Calidad y confianza para tu día a día.', icon: 'shield' },
+];
 ---
 <BaseLayout
   title="Marca"
@@ -20,7 +57,44 @@ import { brand } from '../data/site';
     </div>
   </section>
 
+  <section class="section marca-about">
+    <div class="container marca-about__inner" data-reveal>
+      <h2>¿Qué es KOVA?</h2>
+      <p>
+        KOVA es una marca de estilo de vida contemporáneo que combina diseño,
+        tecnología y funcionalidad para mejorar la vida cotidiana. Creamos
+        productos inteligentes, sofisticados y cuidadosamente diseñados para
+        integrarse de forma natural en tu hogar y elevar los pequeños
+        momentos de cada día.
+      </p>
+    </div>
+  </section>
+
+  <section class="section kova-meaning">
+    <div class="container">
+      <h2 data-reveal>¿Qué significa KOVA?</h2>
+      <div class="kova-meaning__grid">
+        {kovaLetters.map((l, i) => (
+          <div class="kova-letter" data-reveal style={{ '--d': i }}>
+            <span class="kova-letter__char">{l.letter}</span>
+            <span class="kova-letter__word">{l.word.toUpperCase()}</span>
+            <p class="kova-letter__desc">{l.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section marca-pillars">
+    <div class="container">
+      <h2 data-reveal>Nuestros pilares</h2>
+      <PillarRow items={marcaPillars} />
+    </div>
+  </section>
+
   <Story />
+  <Universe />
+  <Philosophy />
 </BaseLayout>
 
 <style>
@@ -41,5 +115,65 @@ import { brand } from '../data/site';
     font-size: var(--step-0);
     color: var(--text-muted);
     letter-spacing: 0.03em;
+  }
+
+  .marca-about__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    padding-block: 0.5rem;
+  }
+  .marca-about__inner h2 { font-size: var(--step-2); font-weight: 600; }
+  .marca-about__inner p {
+    max-width: 42rem;
+    font-size: var(--step-0);
+    line-height: 1.75;
+    color: var(--text);
+  }
+
+  .kova-meaning {
+    background: var(--surface-alt);
+    border-block: 1px solid var(--border);
+  }
+  .kova-meaning h2 {
+    font-size: var(--step-2);
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: clamp(1.75rem, 1rem + 2vw, 2.5rem);
+  }
+  .kova-meaning__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  .kova-letter { display: flex; flex-direction: column; gap: 0.6rem; }
+  .kova-letter__char {
+    font-family: var(--font-serif);
+    font-size: var(--step-4);
+    line-height: 1;
+    color: var(--accent);
+  }
+  .kova-letter__word {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--text-strong);
+  }
+  .kova-letter__desc { font-size: var(--step--1); line-height: 1.6; color: var(--text-muted); }
+
+  .marca-pillars h2 {
+    font-size: var(--step-2);
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: clamp(1.75rem, 1rem + 2vw, 2.5rem);
+  }
+
+  @media (max-width: 760px) {
+    .kova-meaning__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2rem; }
+  }
+  @media (max-width: 480px) {
+    .kova-meaning__grid { grid-template-columns: 1fr; }
   }
 </style>
