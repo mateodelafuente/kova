@@ -13,15 +13,15 @@ import Icon from './Icon.astro';
     <BrandMark />
 
     <nav class="header__nav" aria-label="Navegación principal">
-      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      {nav.map((item) => <a href={item.href} class="link-underline">{item.label}</a>)}
     </nav>
 
     <div class="header__actions">
-      <a href="/productos" class="header__shop">Comprar</a>
+      <a href="/productos" class="header__shop link-underline">Comprar</a>
       <ThemeToggle />
       <button
         type="button"
-        class="header__menu-btn"
+        class="icon-btn header__menu-btn"
         aria-label="Abrir menú"
         aria-expanded="false"
         aria-controls="mobile-nav"
@@ -51,7 +51,7 @@ import Icon from './Icon.astro';
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    padding-block: 1.15rem;
+    padding-block: 0.9rem;
   }
 
   .header__nav {
@@ -62,7 +62,6 @@ import Icon from './Icon.astro';
     text-transform: uppercase;
     font-weight: 500;
   }
-  .header__nav a:hover { color: var(--accent); }
 
   .header__actions {
     display: flex;
@@ -75,14 +74,14 @@ import Icon from './Icon.astro';
     text-transform: uppercase;
     font-weight: 600;
   }
-  .header__shop:hover { color: var(--accent); }
 
   .header__menu-btn {
     display: none;
-    color: var(--text-strong);
   }
 
-  /* ---- Menú mobile ---- */
+  /* ---- Menú mobile ----
+     Acá el hover/tap se muestra corriendo el texto hacia la derecha en
+     vez de subrayado, que en una lista apilada se lee mejor. */
   .header__mobile {
     display: none;
     flex-direction: column;
@@ -91,10 +90,19 @@ import Icon from './Icon.astro';
   }
   .header__mobile a {
     padding-block: 0.9rem;
+    padding-left: 0;
     font-size: var(--step-0);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     border-bottom: 1px solid var(--border-soft);
+    cursor: pointer;
+    transition: color 0.2s var(--ease), padding-left 0.2s var(--ease);
+  }
+  .header__mobile a:hover,
+  .header__mobile a:active,
+  .header__mobile a:focus-visible {
+    color: var(--accent);
+    padding-left: 0.6rem;
   }
   .header__mobile-shop { color: var(--accent); font-weight: 600; }
   .header[data-open='true'] .header__mobile { display: flex; }

@@ -8,7 +8,7 @@ import Icon from './Icon.astro';
 ---
 <button
   type="button"
-  class="theme-toggle"
+  class="icon-btn theme-toggle"
   id="theme-toggle"
   aria-label="Cambiar tono claro u oscuro"
   title="Cambiar tono"
@@ -18,18 +18,9 @@ import Icon from './Icon.astro';
 </button>
 
 <style>
-  .theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    border: 1px solid var(--border);
-    color: var(--text-strong);
-    transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
-  }
-  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
-
+  /* El look de botón (marco, hover, press) sale de la clase global .icon-btn;
+     acá sólo queda la lógica propia: mostrar sol o luna según el tema. */
+  .theme-toggle { display: inline-flex; }
   .theme-toggle__icon { display: none; }
   :global([data-theme='light']) .theme-toggle__icon--moon { display: inline-flex; }
   :global([data-theme='dark']) .theme-toggle__icon--sun { display: inline-flex; }

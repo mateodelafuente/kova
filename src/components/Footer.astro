@@ -28,17 +28,17 @@ const help = [
       <nav class="footer__links" aria-label="Enlaces del pie">
         <div>
           <span class="footer__col-title">Colección</span>
-          {productNav.map((n) => <a href={n.href}>{n.label}</a>)}
+          {productNav.map((n) => <a href={n.href} class="link-underline">{n.label}</a>)}
         </div>
         <div>
           <span class="footer__col-title">Marca</span>
-          <a href="/marca">Filosofía</a>
-          <a href="/marca#historia">Historia</a>
-          <a href="/contacto">Contacto</a>
+          <a href="/marca" class="link-underline">Filosofía</a>
+          <a href="/marca#historia" class="link-underline">Historia</a>
+          <a href="/contacto" class="link-underline">Contacto</a>
         </div>
         <div>
           <span class="footer__col-title">Ayuda</span>
-          {help.map((h) => <a href={h.href}>{h.label}</a>)}
+          {help.map((h) => <a href={h.href} class="link-underline">{h.label}</a>)}
         </div>
       </nav>
     </div>
@@ -54,7 +54,7 @@ const help = [
   .footer {
     background: var(--kova-carbon);
     color: var(--kova-ivory);
-    padding-block: clamp(3.5rem, 2rem + 5vw, 5rem) 2.75rem;
+    padding-block: clamp(2.5rem, 1.5rem + 3.5vw, 3.75rem) 2rem;
     border-top: 1px solid #242426;
   }
 
@@ -62,7 +62,7 @@ const help = [
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     gap: clamp(2rem, 1rem + 4vw, 4rem);
-    padding-bottom: 3rem;
+    padding-bottom: 2.25rem;
     border-bottom: 1px solid #242426;
   }
 
@@ -101,7 +101,11 @@ const help = [
     letter-spacing: 0.16em;
     text-transform: uppercase;
     font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.18s var(--ease), filter 0.18s var(--ease);
   }
+  .footer__form button:hover { filter: brightness(1.1); transform: translateY(-2px); }
+  .footer__form button:active { filter: brightness(0.95); transform: translateY(0); }
 
   .footer__links {
     display: flex;
@@ -109,8 +113,7 @@ const help = [
     font-size: var(--step--1);
   }
   .footer__links > div { display: flex; flex-direction: column; gap: 0.65rem; }
-  .footer__links a { color: var(--kova-sand); }
-  .footer__links a:hover { color: var(--kova-gold); }
+  .footer__links a { color: var(--kova-sand); width: max-content; }
   .footer__col-title {
     color: var(--kova-taupe);
     letter-spacing: 0.16em;

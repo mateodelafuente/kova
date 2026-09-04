@@ -69,7 +69,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   color: var(--text-muted);
 }
 
-/* ---- Botones ---- */
+/* ---- Botones ----
+   Estados bien diferenciados (hover / active / focus) para que se note
+   a simple vista qué es presionable: el relleno cambia, se levantan
+   un poco y sueltan una sombra suave; al hacer click "bajan" de nuevo. */
 .btn, .btn-ghost {
   display: inline-flex;
   align-items: center;
@@ -81,13 +84,93 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   font-weight: 600;
   padding: 1rem 1.9rem;
   border: 1px solid transparent;
-  transition: opacity 0.2s var(--ease), background-color 0.2s var(--ease),
-    color 0.2s var(--ease), border-color 0.2s var(--ease);
+  cursor: pointer;
+  transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease),
+    background-color 0.18s var(--ease), color 0.18s var(--ease),
+    border-color 0.18s var(--ease);
 }
-.btn { background: var(--btn-bg); color: var(--btn-text); }
-.btn:hover { opacity: 0.85; }
-.btn-ghost { color: var(--text-strong); border-color: var(--border); }
-.btn-ghost:hover { border-color: var(--accent); }
+
+.btn {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--btn-bg) 25%, transparent);
+}
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px -10px color-mix(in srgb, var(--btn-bg) 55%, transparent);
+}
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--btn-bg) 25%, transparent);
+}
+
+.btn-ghost {
+  color: var(--text-strong);
+  background: transparent;
+  border-color: color-mix(in srgb, var(--text) 35%, transparent);
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  transform: translateY(-2px);
+}
+.btn-ghost:active {
+  transform: translateY(0);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+/* ---- Links de navegación (header, footer, "ver todo"...) ----
+   No son botones con relleno, pero tienen que leerse como clickeables:
+   al pasar el mouse, una línea dorada se desliza por debajo del texto. */
+.link-underline {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  transition: color 0.2s var(--ease);
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.3em;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.25s var(--ease);
+}
+.link-underline:hover,
+.link-underline:focus-visible { color: var(--accent); }
+.link-underline:hover::after,
+.link-underline:focus-visible::after { transform: scaleX(1); transform-origin: left; }
+
+/* ---- Botones ícono (toggle de tema, menú mobile) ----
+   Mismo lenguaje que .btn-ghost: marco visible en reposo, se rellenan
+   y levantan un poco al hover, "bajan" al click. */
+.icon-btn {
+  /* el display (inline-flex / none según breakpoint) lo define quien lo usa */
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid color-mix(in srgb, var(--text) 35%, transparent);
+  color: var(--text-strong);
+  cursor: pointer;
+  transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease),
+    background-color 0.18s var(--ease), color 0.18s var(--ease),
+    border-color 0.18s var(--ease);
+}
+.icon-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  transform: translateY(-2px);
+}
+.icon-btn:active {
+  transform: translateY(0);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
 
 /* ---- Bloque de imagen provisorio (mientras no hay fotografía real) ---- */
 .placeholder {

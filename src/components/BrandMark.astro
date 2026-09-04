@@ -24,6 +24,7 @@ const { sub = true, size = 28 } = Astro.props;
     display: inline-flex;
     align-items: center;
     gap: 0.7rem;
+    cursor: pointer;
   }
   .brandmark__iso {
     display: grid;
@@ -36,7 +37,13 @@ const { sub = true, size = 28 } = Astro.props;
     font-size: calc(var(--iso-size, 28px) * 0.58);
     color: var(--text-strong);
     line-height: 1;
+    transition: transform 0.2s var(--ease), background-color 0.2s var(--ease);
   }
+  .brandmark:hover .brandmark__iso {
+    transform: scale(1.08);
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+  }
+  .brandmark:active .brandmark__iso { transform: scale(0.97); }
   .brandmark__word {
     font-family: var(--font-serif);
     font-size: 1.25rem;
