@@ -1,0 +1,60 @@
+---
+/**
+ * Lockup de marca: isotipo (K en círculo) + "KOVA" + submarca.
+ * Provisorio hasta tener el logo definitivo en SVG.
+ */
+import { brand } from '../data/site';
+
+interface Props {
+  /** Muestra la submarca "PETS" al lado */
+  sub?: boolean;
+  /** Tamaño del isotipo en px */
+  size?: number;
+}
+const { sub = true, size = 28 } = Astro.props;
+---
+<a href="/" class="brandmark" aria-label={`${brand.name} ${brand.sub}`}>
+  <span class="brandmark__iso" style={`--iso-size:${size}px`}>K</span>
+  <span class="brandmark__word">{brand.name}</span>
+  {sub && <span class="brandmark__sub">{brand.sub}</span>}
+</a>
+
+<style>
+  .brandmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    cursor: pointer;
+  }
+  .brandmark__iso {
+    display: grid;
+    place-items: center;
+    width: var(--iso-size, 28px);
+    height: var(--iso-size, 28px);
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    font-family: var(--font-serif);
+    font-size: calc(var(--iso-size, 28px) * 0.58);
+    color: var(--text-strong);
+    line-height: 1;
+    transition: transform 0.2s var(--ease), background-color 0.2s var(--ease);
+  }
+  .brandmark:hover .brandmark__iso {
+    transform: scale(1.08);
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+  }
+  .brandmark:active .brandmark__iso { transform: scale(0.97); }
+  .brandmark__word {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--text-strong);
+  }
+  .brandmark__sub {
+    font-size: 0.5625rem;
+    letter-spacing: 0.3em;
+    color: var(--text-muted);
+    padding-top: 0.2rem;
+  }
+</style>

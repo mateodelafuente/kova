@@ -1,0 +1,75 @@
+---
+/**
+ * Cabecera del sitio: sólo la marca a la izquierda y, a la derecha, acceso
+ * a la colección (carrito) y el switch de tono. Sin navegación de
+ * productos — la colección se recorre scrolleando desde la home.
+ */
+import BrandMark from './BrandMark.astro';
+import ThemeToggle from './ThemeToggle.astro';
+---
+<header class="header" id="site-header">
+  <div class="container header__inner">
+    <BrandMark />
+
+    <div class="header__actions">
+      <a href="/#coleccion" class="cart-link" aria-label="Ver la colección">
+        <span class="cart-link__icon"></span>
+      </a>
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 0.75rem;
+  }
+
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* Botón "estético", sin marco: mismo alto que el switch de tono (1.85rem)
+     para que los dos controles del header se sientan del mismo tamaño. */
+  .cart-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.85rem;
+    height: 1.85rem;
+    color: var(--text-strong);
+    cursor: pointer;
+    transition: color 0.2s var(--ease), transform 0.18s var(--ease);
+  }
+  .cart-link:hover { color: var(--accent); transform: translateY(-2px); }
+  .cart-link:active { transform: translateY(0) scale(0.92); }
+
+  /*
+    La imagen (src/img/carritoCompras.png, negra sobre transparente) se usa
+    como máscara: lo que se ve es "color: currentColor" recortado con su
+    silueta, no la imagen en sí. Por eso se tiñe sola con el tema (claro/
+    oscuro) y con el dorado del hover, igual que un ícono de línea normal.
+  */
+  .cart-link__icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: currentColor;
+    -webkit-mask: url('../img/carritoCompras.png') center / contain no-repeat;
+    mask: url('../img/carritoCompras.png') center / contain no-repeat;
+  }
+</style>

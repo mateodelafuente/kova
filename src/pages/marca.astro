@@ -1,0 +1,45 @@
+---
+/**
+ * Página de marca: a dónde lleva "Conocer KOVA" desde la home.
+ * Por ahora sólo tiene la historia; cuando haya más contenido de marca
+ * (valores K-O-V-A, posicionamiento) se suma acá como nuevas secciones.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Story from '../components/sections/Story.astro';
+import { brand } from '../data/site';
+---
+<BaseLayout
+  title="Marca"
+  description={`${brand.name} — ${brand.parentTagline} ${brand.parentClaim}.`}
+>
+  <section class="section marca-intro">
+    <div class="container marca-intro__inner" data-reveal>
+      <span class="eyebrow">{brand.name}</span>
+      <h1>{brand.parentTagline}</h1>
+      <p>{brand.parentClaim}.</p>
+    </div>
+  </section>
+
+  <Story />
+</BaseLayout>
+
+<style>
+  .marca-intro__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.1rem;
+    text-align: center;
+    padding-block: 1rem;
+  }
+  .marca-intro__inner h1 {
+    font-size: var(--step-3);
+    font-weight: 500;
+    max-width: 38rem;
+  }
+  .marca-intro__inner p {
+    font-size: var(--step-0);
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+  }
+</style>

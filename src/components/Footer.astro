@@ -1,0 +1,152 @@
+---
+/**
+ * Pie del sitio: alta al newsletter + navegación secundaria + firma de marca.
+ * Siempre sobre fondo carbón (invariante entre temas), como en el brief.
+ */
+import { brand, productNav } from '../data/site';
+
+const help = [
+  { label: 'Envíos', href: '/envios' },
+  { label: 'Garantía', href: '/garantia' },
+  { label: brand.whatsapp, href: '#' },
+];
+---
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__signup">
+        <h2 class="footer__title">Sumate a KOVA</h2>
+        <p class="footer__lead">
+          Lanzamientos, historias y acceso anticipado a nuevas colecciones.
+        </p>
+        <form class="footer__form" onsubmit="return false">
+          <input type="email" placeholder="tu correo" aria-label="Correo electrónico" />
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
+
+      <nav class="footer__links" aria-label="Enlaces del pie">
+        <div>
+          <span class="footer__col-title">Colección</span>
+          {productNav.map((n) => <a href={n.href} class="link-underline">{n.label}</a>)}
+        </div>
+        <div>
+          <span class="footer__col-title">Marca</span>
+          <a href="/marca" class="link-underline">Filosofía</a>
+          <a href="/marca#historia" class="link-underline">Historia</a>
+          <a href="/contacto" class="link-underline">Contacto</a>
+        </div>
+        <div>
+          <span class="footer__col-title">Ayuda</span>
+          {help.map((h) => <a href={h.href} class="link-underline">{h.label}</a>)}
+        </div>
+      </nav>
+    </div>
+
+    <div class="footer__bottom">
+      <span class="footer__sign">{brand.name} · {brand.parentTagline}</span>
+      <span class="footer__meta">© {brand.year} · {brand.domain}</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--kova-carbon);
+    color: var(--kova-ivory);
+    padding-block: clamp(1.75rem, 1rem + 2.5vw, 2.75rem) 1.5rem;
+    border-top: 1px solid #242426;
+  }
+
+  .footer__top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(2rem, 1rem + 4vw, 4rem);
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid #242426;
+  }
+
+  .footer__title {
+    font-size: var(--step-2);
+    letter-spacing: 0.12em;
+    color: var(--kova-ivory);
+  }
+  .footer__lead {
+    margin-top: 0.9rem;
+    max-width: 22rem;
+    font-size: var(--step--1);
+    color: var(--kova-taupe);
+  }
+
+  .footer__form {
+    display: flex;
+    margin-top: 1.4rem;
+    max-width: 24rem;
+  }
+  .footer__form input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.85rem 1rem;
+    background: transparent;
+    border: 1px solid #3a3a3d;
+    color: var(--kova-ivory);
+    font-size: var(--step--1);
+  }
+  .footer__form input::placeholder { color: var(--kova-taupe); }
+  .footer__form button {
+    padding: 0.85rem 1.5rem;
+    background: var(--kova-gold);
+    color: var(--kova-carbon);
+    font-size: var(--step--1);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.18s var(--ease), filter 0.18s var(--ease);
+  }
+  .footer__form button:hover { filter: brightness(1.1); transform: translateY(-2px); }
+  .footer__form button:active { filter: brightness(0.95); transform: translateY(0); }
+
+  .footer__links {
+    display: flex;
+    gap: clamp(1.75rem, 1rem + 3vw, 3.25rem);
+    font-size: var(--step--1);
+  }
+  .footer__links > div { display: flex; flex-direction: column; gap: 0.65rem; }
+  .footer__links a { color: var(--kova-sand); width: max-content; }
+  .footer__col-title {
+    color: var(--kova-taupe);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-top: 1.75rem;
+  }
+  .footer__sign {
+    font-family: var(--font-serif);
+    font-size: var(--step-0);
+    letter-spacing: 0.16em;
+    color: var(--kova-gold);
+  }
+  .footer__meta {
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--kova-taupe);
+  }
+
+  @media (max-width: 860px) {
+    .footer__top { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .footer__links { flex-wrap: wrap; gap: 1.75rem 2.5rem; }
+  }
+</style>
