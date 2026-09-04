@@ -1,8 +1,9 @@
 ---
 import ProductCard from '../ProductCard.astro';
+import PillarRow from '../PillarRow.astro';
 import { featuredProducts } from '../../data/products';
 ---
-<section class="section collection">
+<section class="section collection" id="coleccion">
   <div class="container">
     <div class="collection__head">
       <div>
@@ -12,6 +13,8 @@ import { featuredProducts } from '../../data/products';
       <a href="/productos" class="collection__all link-underline">Ver todo</a>
     </div>
 
+    <PillarRow />
+
     <div class="collection__grid">
       {featuredProducts.map((product) => <ProductCard product={product} />)}
     </div>
@@ -19,6 +22,9 @@ import { featuredProducts } from '../../data/products';
 </section>
 
 <style>
+  /* Deja lugar para el header sticky al llegar por el ancla "#coleccion" */
+  #coleccion { scroll-margin-top: 5.5rem; }
+
   .collection__head {
     display: flex;
     justify-content: space-between;

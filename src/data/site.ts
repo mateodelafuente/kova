@@ -21,13 +21,12 @@ export const brand = {
 
 export type NavItem = { label: string; href: string };
 
-/** Un link por producto — sale directo del catálogo, no se duplica a mano. */
+/** Un link por producto — sale directo del catálogo, no se duplica a mano.
+ *  Se usa en el footer (el header no tiene navegación de productos). */
 export const productNav: NavItem[] = products.map((p) => ({
   label: p.name,
   href: `/productos/${p.slug}`,
 }));
-
-export const nav: NavItem[] = [...productNav, { label: 'Marca', href: '/marca' }];
 
 export type Pillar = { name: string; desc: string; icon: string };
 

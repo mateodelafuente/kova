@@ -16,6 +16,12 @@ import { universes } from '../../data/site';
 </section>
 
 <style>
+  /* Ahora es la banda que separa el hero de la colección, así que lleva
+     fondo propio (como antes hacía la fila de pilares en este lugar). */
+  .universe {
+    background: var(--surface);
+    border-block: 1px solid var(--border);
+  }
   .universe h2 { font-size: var(--step-2); font-weight: 600; margin-bottom: 1.5rem; }
 
   .universe__grid {
