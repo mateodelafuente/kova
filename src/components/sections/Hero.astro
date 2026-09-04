@@ -1,6 +1,10 @@
 ---
-import Icon from '../Icon.astro';
 import { brand } from '../../data/site';
+/**
+ * La foto vive optimizada (WebP) en public/img/hero.webp — servida tal
+ * cual, sin pasar por el pipeline de imágenes de Astro. El original
+ * editable (recorte + retoque de color) queda en src/img/hero.jpg.
+ */
 ---
 <section class="hero">
   <div class="container hero__grid">
@@ -17,10 +21,15 @@ import { brand } from '../../data/site';
       </div>
     </div>
 
-    <div class="placeholder hero__image">
-      <Icon name="suite" size={52} />
-      <span class="placeholder__label">Fotografía · set completo en interior</span>
-    </div>
+    <img
+      src="/img/hero.webp"
+      alt="Gato y perro golden retriever junto al comedero y la fuente inteligente KOVA Pets"
+      class="hero__image"
+      width="1024"
+      height="612"
+      loading="eager"
+      fetchpriority="high"
+    />
   </div>
 </section>
 
@@ -45,7 +54,18 @@ import { brand } from '../../data/site';
   .hero__lead { max-width: 30rem; font-size: var(--step-0); }
   .hero__actions { display: flex; gap: 0.9rem; flex-wrap: wrap; margin-top: 0.1rem; }
 
-  .hero__image { aspect-ratio: 5 / 3; min-height: 8rem; }
+  .hero__image {
+    display: block;
+    width: 100%;
+    height: auto; /* sin esto, el atributo height="612" del <img> gana y
+                     desarma el recuadro — aspect-ratio necesita height:auto
+                     para poder calcular el alto a partir del ancho real. */
+    min-width: 0;  /* evita que la imagen empuje la columna del grid */
+    aspect-ratio: 5 / 3;
+    min-height: 8rem;
+    object-fit: cover;
+    object-position: 50% 22%;
+  }
 
   .signature-band {
     border-block: 1px solid var(--border);
