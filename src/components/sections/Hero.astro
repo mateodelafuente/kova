@@ -1,10 +1,8 @@
 ---
 import { brand } from '../../data/site';
-/**
- * La foto vive optimizada (WebP) en public/img/hero.webp — servida tal
- * cual, sin pasar por el pipeline de imágenes de Astro. El original
- * editable (recorte + retoque de color) queda en src/img/hero.jpg.
- */
+// Única fuente de la foto: src/img/hero.webp (Vite se encarga de copiarla
+// y darle una URL final — no hace falta ningún duplicado en public/).
+import heroPhoto from '../../img/hero.webp';
 ---
 <section class="hero">
   <div class="container hero__grid">
@@ -22,11 +20,11 @@ import { brand } from '../../data/site';
     </div>
 
     <img
-      src="/img/hero.webp"
+      src={heroPhoto.src}
       alt="Gato y perro golden retriever junto al comedero y la fuente inteligente KOVA Pets"
       class="hero__image"
-      width="1024"
-      height="612"
+      width={heroPhoto.width}
+      height={heroPhoto.height}
       loading="eager"
       fetchpriority="high"
     />

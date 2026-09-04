@@ -6,7 +6,6 @@
  */
 import BrandMark from './BrandMark.astro';
 import ThemeToggle from './ThemeToggle.astro';
-import Icon from './Icon.astro';
 ---
 <header class="header" id="site-header">
   <div class="container header__inner">
@@ -14,7 +13,7 @@ import Icon from './Icon.astro';
 
     <div class="header__actions">
       <a href="/#coleccion" class="cart-link" aria-label="Ver la colección">
-        <Icon name="cart" size={18} />
+        <span class="cart-link__icon"></span>
       </a>
       <ThemeToggle />
     </div>
@@ -58,4 +57,19 @@ import Icon from './Icon.astro';
   }
   .cart-link:hover { color: var(--accent); transform: translateY(-2px); }
   .cart-link:active { transform: translateY(0) scale(0.92); }
+
+  /*
+    La imagen (src/img/carritoCompras.png, negra sobre transparente) se usa
+    como máscara: lo que se ve es "color: currentColor" recortado con su
+    silueta, no la imagen en sí. Por eso se tiñe sola con el tema (claro/
+    oscuro) y con el dorado del hover, igual que un ícono de línea normal.
+  */
+  .cart-link__icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: currentColor;
+    -webkit-mask: url('../img/carritoCompras.png') center / contain no-repeat;
+    mask: url('../img/carritoCompras.png') center / contain no-repeat;
+  }
 </style>

@@ -35,14 +35,19 @@ src/
   data/             → contenido editable sin tocar diseño: productos, textos de marca,
                        navegación, pilares. Para cambiar un precio o agregar un producto,
                        se edita acá — nunca hace falta tocar los componentes.
-  img/              → todas las fotos reales del sitio (hero, producto, historia...).
-                       Ver src/img/README.md para la convención de nombres.
+  img/              → TODAS las imágenes del sitio (fotos e íconos), sin excepción
+                       ni copias en ningún otro lado. Ver src/img/README.md.
   styles/
     tokens.css      → paleta de colores, tipografías y espaciados de la marca.
                        Cambiar un color acá lo cambia en todo el sitio.
     global.css      → estilos base compartidos (botones, contenedores, reset).
 
-public/             → archivos que se sirven tal cual (favicon, imágenes fijas).
+public/             → solo el favicon (tiene que vivir en una ruta fija por cómo
+                       lo pide el navegador). Ninguna otra imagen va acá.
+
+dist/               → se genera solo con `npm run build` — nunca se edita a mano,
+                       se borra y se rehace en cada build. No es un lugar donde
+                       "poner" nada.
 ```
 
 **Regla simple:** si es contenido (texto, precio, producto nuevo) → `src/data/`.
