@@ -23,14 +23,14 @@
   --step--1: clamp(0.78rem, 0.74rem + 0.18vw, 0.875rem);
   --step-0:  clamp(0.94rem, 0.90rem + 0.20vw, 1rem);
   --step-1:  clamp(1.05rem, 0.95rem + 0.45vw, 1.30rem);
-  --step-2:  clamp(1.40rem, 1.15rem + 1.10vw, 2.00rem);
-  --step-3:  clamp(1.80rem, 1.35rem + 2.10vw, 2.95rem);
-  --step-4:  clamp(2.10rem, 1.35rem + 3.60vw, 3.90rem);
+  --step-2:  clamp(1.30rem, 1.10rem + 0.90vw, 1.80rem);
+  --step-3:  clamp(1.65rem, 1.30rem + 1.60vw, 2.55rem);
+  --step-4:  clamp(1.90rem, 1.30rem + 2.80vw, 3.35rem);
 
   /* ---- Espaciado y layout ----
      Compacto a propósito: la idea es que entre más "pantallazo" en la
      primera pantalla y se scrollee menos para ver el sitio completo. */
-  --space-section: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
+  --space-section: clamp(1.75rem, 1rem + 3vw, 3.25rem);
   --gutter:        clamp(1.25rem, 0.4rem + 3.2vw, 4rem);
   --max-width:     1440px;
 

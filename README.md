@@ -35,6 +35,8 @@ src/
   data/             → contenido editable sin tocar diseño: productos, textos de marca,
                        navegación, pilares. Para cambiar un precio o agregar un producto,
                        se edita acá — nunca hace falta tocar los componentes.
+  img/              → todas las fotos reales del sitio (hero, producto, historia...).
+                       Ver src/img/README.md para la convención de nombres.
   styles/
     tokens.css      → paleta de colores, tipografías y espaciados de la marca.
                        Cambiar un color acá lo cambia en todo el sitio.

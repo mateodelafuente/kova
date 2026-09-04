@@ -145,33 +145,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .link-underline:hover::after,
 .link-underline:focus-visible::after { transform: scaleX(1); transform-origin: left; }
 
-/* ---- Botones ícono (toggle de tema, menú mobile) ----
-   Mismo lenguaje que .btn-ghost: marco visible en reposo, se rellenan
-   y levantan un poco al hover, "bajan" al click. */
-.icon-btn {
-  /* el display (inline-flex / none según breakpoint) lo define quien lo usa */
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 1px solid color-mix(in srgb, var(--text) 35%, transparent);
-  color: var(--text-strong);
-  cursor: pointer;
-  transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease),
-    background-color 0.18s var(--ease), color 0.18s var(--ease),
-    border-color 0.18s var(--ease);
-}
-.icon-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-  transform: translateY(-2px);
-}
-.icon-btn:active {
-  transform: translateY(0);
-  background: color-mix(in srgb, var(--accent) 18%, transparent);
-}
-
 /* ---- Bloque de imagen provisorio (mientras no hay fotografía real) ---- */
 .placeholder {
   position: relative;
