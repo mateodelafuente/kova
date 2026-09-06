@@ -1,0 +1,183 @@
+---
+/**
+ * Página del carrito.
+ * Hoy no hay forma de agregar productos (no hay lógica de carrito todavía),
+ * así que siempre se muestra vacío. La estructura de la lista de ítems y el
+ * resumen ya está escrita para cuando exista el estado real: se activa sola
+ * en cuanto `cartItems` deje de estar vacío.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+
+interface CartItem {
+  slug: string;
+  name: string;
+  tagline: string;
+  price: string;
+  qty: number;
+}
+
+const cartItems: CartItem[] = [];
+const isEmpty = cartItems.length === 0;
+---
+<BaseLayout title="Carrito" description="Tu carrito en KOVA.">
+  <section class="section cart">
+    <div class="container">
+      <span class="eyebrow">KOVA PETS</span>
+      <h1 class="cart__title">Tu carrito</h1>
+
+      {isEmpty ? (
+        <div class="cart-empty">
+          <span class="cart-empty__icon"><Icon name="cart" size={30} /></span>
+          <p class="cart-empty__lead">Todavía no agregaste ningún producto.</p>
+          <p class="cart-empty__hint">
+            La compra online está en camino. Mientras tanto podés escribirnos
+            por WhatsApp para reservar.
+          </p>
+          <div class="cart-empty__actions">
+            <a href="/#coleccion" class="btn">Ver la colección</a>
+            <a href="/marca" class="btn-ghost">Conocer KOVA</a>
+          </div>
+        </div>
+      ) : (
+        <div class="cart-grid">
+          <ul class="cart-lines">
+            {cartItems.map((item) => (
+              <li class="cart-line">
+                <div class="cart-line__media">
+                  <span class="cart-line__ph">{item.name}</span>
+                </div>
+                <div class="cart-line__info">
+                  <a href={`/productos/${item.slug}`} class="cart-line__name">{item.name}</a>
+                  <span class="cart-line__tag">{item.tagline}</span>
+                  <button type="button" class="cart-line__remove">Quitar</button>
+                </div>
+                <div class="cart-line__qty" aria-label="Cantidad">
+                  <button type="button" aria-label="Restar">−</button>
+                  <span>{item.qty}</span>
+                  <button type="button" aria-label="Sumar">+</button>
+                </div>
+                <span class="cart-line__price">{item.price} ARS</span>
+              </li>
+            ))}
+          </ul>
+
+          <aside class="cart-summary">
+            <h2 class="cart-summary__title">Resumen</h2>
+            <div class="cart-summary__row">
+              <span>Subtotal</span><span>[a completar]</span>
+            </div>
+            <div class="cart-summary__row">
+              <span>Envío</span><span>Se calcula al finalizar</span>
+            </div>
+            <div class="cart-summary__row cart-summary__row--total">
+              <span>Total</span><span>[a completar]</span>
+            </div>
+            <button type="button" class="btn cart-summary__cta">Finalizar compra</button>
+            <a href="/#coleccion" class="cart-summary__cont link-underline">Seguir comprando</a>
+          </aside>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .cart__title { font-size: var(--step-3); font-weight: 500; margin-top: 0.4rem; }
+
+  /* ---- Estado vacío ---- */
+  .cart-empty {
+    margin-top: clamp(1.5rem, 1rem + 3vw, 3rem);
+    max-width: 32rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
+  }
+  .cart-empty__icon {
+    display: inline-flex;
+    padding: 0.9rem;
+    border: 1px solid var(--border);
+    color: var(--accent);
+  }
+  .cart-empty__lead { font-size: var(--step-1); color: var(--text-strong); }
+  .cart-empty__hint { font-size: var(--step-0); color: var(--text-muted); }
+  .cart-empty__actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.6rem; }
+
+  /* ---- Con ítems (para cuando haya lógica) ---- */
+  .cart-grid {
+    margin-top: clamp(1.5rem, 1rem + 3vw, 2.5rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
+    gap: clamp(1.5rem, 1rem + 3vw, 3rem);
+    align-items: start;
+  }
+  .cart-lines { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
+  .cart-line {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr) auto auto;
+    gap: 1rem;
+    align-items: center;
+    padding-block: 1.1rem;
+    border-top: 1px solid var(--border);
+  }
+  .cart-line:last-child { border-bottom: 1px solid var(--border); }
+  .cart-line__media { aspect-ratio: 1; background: var(--placeholder); display: grid; place-items: center; }
+  .cart-line__ph { font-family: var(--font-serif); font-size: var(--step--1); color: var(--text-muted); }
+  .cart-line__info { display: flex; flex-direction: column; gap: 0.2rem; }
+  .cart-line__name { font-size: var(--step-0); font-weight: 600; color: var(--text-strong); }
+  .cart-line__tag { font-size: var(--step--1); color: var(--text-muted); }
+  .cart-line__remove {
+    align-self: flex-start;
+    margin-top: 0.3rem;
+    font-size: var(--step--1);
+    color: var(--text-muted);
+    text-decoration: underline;
+  }
+  .cart-line__qty {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    border: 1px solid var(--border);
+    padding: 0.35rem 0.7rem;
+  }
+  .cart-line__qty button { font-size: var(--step-0); color: var(--text-strong); line-height: 1; }
+  .cart-line__price { font-size: var(--step-0); color: var(--text-strong); white-space: nowrap; }
+
+  .cart-summary {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    position: sticky;
+    top: 5.5rem;
+  }
+  .cart-summary__title { font-size: var(--step-1); font-weight: 600; }
+  .cart-summary__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: var(--step--1);
+    color: var(--text-muted);
+  }
+  .cart-summary__row--total {
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--border);
+    font-size: var(--step-0);
+    color: var(--text-strong);
+    font-weight: 600;
+  }
+  .cart-summary__cta { margin-top: 0.5rem; width: 100%; }
+  .cart-summary__cont { align-self: center; font-size: var(--step--1); color: var(--text-muted); }
+
+  @media (max-width: 780px) {
+    .cart-grid { grid-template-columns: 1fr; }
+    .cart-summary { position: static; }
+  }
+  @media (max-width: 520px) {
+    .cart-line { grid-template-columns: 4rem minmax(0, 1fr); grid-auto-flow: row; }
+    .cart-line__qty, .cart-line__price { grid-column: 2; justify-self: start; }
+  }
+</style>

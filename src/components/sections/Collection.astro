@@ -1,0 +1,59 @@
+---
+import ProductCard from '../ProductCard.astro';
+import PillarRow from '../PillarRow.astro';
+import { featuredProducts } from '../../data/products';
+---
+<section class="section collection" id="coleccion">
+  <div class="container">
+    <div class="collection__head" data-reveal data-reveal-repeat>
+      <div>
+        <span class="eyebrow">La colección</span>
+        <h2>Cuatro productos, un sistema</h2>
+      </div>
+      <a href="/productos" class="collection__all link-underline">Ver todo</a>
+    </div>
+
+    <PillarRow />
+
+    <div class="collection__grid">
+      {featuredProducts.map((product, i) => (
+        <ProductCard product={product} revealDelay={i} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Deja lugar para el header sticky al llegar por el ancla "#coleccion" */
+  #coleccion { scroll-margin-top: 5.5rem; }
+
+  .collection__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 1.4rem;
+  }
+  .collection__head h2 { font-size: var(--step-2); font-weight: 600; margin-top: 0.4rem; }
+  .collection__all {
+    font-size: var(--step--1);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .collection__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 960px) {
+    .collection__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 520px) {
+    .collection__grid { grid-template-columns: 1fr; }
+    .collection__head { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  }
+</style>

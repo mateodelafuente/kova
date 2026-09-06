@@ -1,0 +1,108 @@
+---
+/**
+ * Cabecera del sitio en tres zonas: a la izquierda el botón que abre el
+ * drawer de universos, la marca centrada, y a la derecha el carrito.
+ * El drawer en sí (NavDrawer) se monta en BaseLayout, fuera del <header>,
+ * porque el backdrop-filter de acá le rompería el position:fixed.
+ * Sin switch de tono — KOVA usa una sola paleta (Warm), es identidad de marca.
+ */
+import BrandMark from './BrandMark.astro';
+import Icon from './Icon.astro';
+---
+<header class="header" id="site-header">
+  <div class="container header__inner">
+    <div class="header__zone header__zone--left">
+      <button
+        type="button"
+        class="menu-btn"
+        aria-label="Abrir universos"
+        aria-controls="nav-drawer"
+        aria-expanded="false"
+        data-drawer-open
+      >
+        <Icon name="menu" size={20} />
+        <span class="menu-btn__label">Universos</span>
+      </button>
+    </div>
+
+    <BrandMark size={34} large />
+
+    <div class="header__zone header__zone--right">
+      <a href="/carrito" class="cart-link" aria-label="Ver el carrito">
+        <span class="cart-link__icon"></span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  /* Tres columnas: la del medio se ajusta a la marca, las de los costados
+     reparten el resto en partes iguales, así la marca queda centrada. */
+  .header__inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 0.7rem;
+  }
+  .header__zone { display: flex; align-items: center; }
+  .header__zone--left { justify-self: start; }
+  .header__zone--right { justify-self: end; }
+
+  .menu-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.2rem;
+    color: var(--text-strong);
+    font-size: var(--step--1);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: color 0.2s var(--ease);
+  }
+  .menu-btn:hover,
+  .menu-btn:focus-visible { color: var(--accent); }
+  .menu-btn__label { line-height: 1; }
+
+  .cart-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.85rem;
+    height: 1.85rem;
+    color: var(--text-strong);
+    cursor: pointer;
+    transition: color 0.2s var(--ease), transform 0.18s var(--ease);
+  }
+  .cart-link:hover { color: var(--accent); transform: translateY(-2px); }
+  .cart-link:active { transform: translateY(0) scale(0.92); }
+
+  /*
+    src/img/carritoCompras.png (negra sobre transparente) usada como
+    máscara: lo que se ve es "currentColor" recortado con su silueta, así
+    se tiñe sola con el hover dorado igual que un ícono de línea.
+  */
+  .cart-link__icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: currentColor;
+    -webkit-mask: url('../img/carritoCompras.png') center / contain no-repeat;
+    mask: url('../img/carritoCompras.png') center / contain no-repeat;
+  }
+
+  /* En pantallas chicas el botón queda sólo con el ícono. */
+  @media (max-width: 560px) {
+    .menu-btn__label { display: none; }
+    .header__inner { gap: 0.5rem; }
+  }
+</style>

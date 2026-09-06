@@ -1,0 +1,258 @@
+---
+/**
+ * Drawer de universos: se abre desde el botón "Universos" del header.
+ * Panel a pantalla completa que entra desde la izquierda. Cada universo
+ * disponible es un acordeón con sus productos; los que todavía no están
+ * aparecen en gris con "Próximamente".
+ *
+ * Se monta en BaseLayout (no dentro del <header>): el backdrop-filter del
+ * header crea un containing block y le rompería el position:fixed.
+ */
+import Icon from './Icon.astro';
+import { universes } from '../data/site';
+import { productsByUniverse } from '../data/products';
+
+const menu = universes.map((u) => ({
+  ...u,
+  items: u.active ? productsByUniverse(u.slug) : [],
+}));
+// El primer universo con productos arranca abierto — hoy es el único con
+// contenido, así que mostrarlo desplegado evita un click de más.
+const firstOpen = menu.find((u) => u.items.length > 0)?.slug;
+---
+<div class="nav-drawer" id="nav-drawer" data-drawer>
+  <div class="nav-drawer__backdrop" data-drawer-close></div>
+
+  <aside class="nav-drawer__panel" role="dialog" aria-modal="true" aria-label="Universos KOVA">
+    <div class="nav-drawer__head">
+      <span class="nav-drawer__title">Universos</span>
+      <button type="button" class="nav-drawer__close" aria-label="Cerrar" data-drawer-close>
+        <Icon name="close" size={20} />
+      </button>
+    </div>
+
+    <nav class="nav-drawer__body">
+      {menu.map((u) => (
+        <div class:list={['uni', { 'uni--soon': u.items.length === 0, 'is-expanded': u.slug === firstOpen }]}>
+          {u.items.length > 0 ? (
+            <>
+              <button
+                type="button"
+                class="uni__toggle"
+                data-uni-toggle
+                aria-expanded={u.slug === firstOpen ? 'true' : 'false'}
+                aria-controls={`uni-${u.slug}`}
+              >
+                <span class="uni__name">{u.name}</span>
+                <span class="uni__chev"><Icon name="chevron" size={18} /></span>
+              </button>
+              <div class="uni__panel" id={`uni-${u.slug}`}>
+                <ul class="uni__list">
+                  {u.items.map((p) => (
+                    <li>
+                      <a class="uni__link" href={`/productos/${p.slug}`}>
+                        <span class="uni__link-name">{p.name}</span>
+                        <span class="uni__link-tag">{p.tagline}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </>
+          ) : (
+            <div class="uni__toggle uni__toggle--static">
+              <span class="uni__name">{u.name}</span>
+              <span class="uni__status">{u.status}</span>
+            </div>
+          )}
+        </div>
+      ))}
+    </nav>
+
+    <div class="nav-drawer__foot">
+      <a href="/marca" class="nav-drawer__foot-link">Conocer KOVA</a>
+    </div>
+  </aside>
+</div>
+
+<script>
+  const drawer = document.getElementById('nav-drawer');
+  if (drawer) {
+    const opener = document.querySelector<HTMLElement>('[data-drawer-open]');
+    const closeEls = drawer.querySelectorAll<HTMLElement>('[data-drawer-close]');
+    const closeBtn = drawer.querySelector<HTMLElement>('.nav-drawer__close');
+
+    const open = () => {
+      drawer.classList.add('is-open');
+      document.documentElement.classList.add('drawer-open');
+      opener?.setAttribute('aria-expanded', 'true');
+      closeBtn?.focus();
+    };
+    const close = () => {
+      drawer.classList.remove('is-open');
+      document.documentElement.classList.remove('drawer-open');
+      opener?.setAttribute('aria-expanded', 'false');
+      opener?.focus();
+    };
+
+    opener?.addEventListener('click', open);
+    closeEls.forEach((el) => el.addEventListener('click', close));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && drawer.classList.contains('is-open')) close();
+    });
+
+    drawer.querySelectorAll<HTMLElement>('[data-uni-toggle]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const uni = btn.closest('.uni');
+        if (!uni) return;
+        const expanded = uni.classList.toggle('is-expanded');
+        btn.setAttribute('aria-expanded', String(expanded));
+      });
+    });
+  }
+</script>
+
+<style>
+  /* Siempre en el DOM; invisible y sin capturar clicks hasta abrirse.
+     Sin JS el botón no hace nada — el sitio ya depende de JS igual. */
+  .nav-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .nav-drawer.is-open {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .nav-drawer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--kova-carbon) 55%, transparent);
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
+  }
+  .nav-drawer.is-open .nav-drawer__backdrop { opacity: 1; }
+
+  .nav-drawer__panel {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: min(380px, 86vw);
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    border-right: 1px solid var(--border);
+    box-shadow: 24px 0 60px -30px color-mix(in srgb, var(--kova-carbon) 60%, transparent);
+    transform: translateX(-100%);
+    transition: transform 0.34s var(--ease);
+    overflow-y: auto;
+  }
+  .nav-drawer.is-open .nav-drawer__panel { transform: translateX(0); }
+
+  .nav-drawer__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.15rem var(--gutter);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-drawer__title {
+    font-size: var(--step--1);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+  .nav-drawer__close {
+    display: inline-flex;
+    padding: 0.25rem;
+    color: var(--text-strong);
+    transition: color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .nav-drawer__close:hover { color: var(--accent); transform: rotate(90deg); }
+
+  .nav-drawer__body { flex: 1; padding: 0.5rem 0; }
+
+  .uni { border-bottom: 1px solid var(--border-soft); }
+  .uni__toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem var(--gutter);
+    text-align: left;
+    font-family: var(--font-serif);
+    color: var(--text-strong);
+    transition: background-color 0.2s var(--ease);
+  }
+  button.uni__toggle:hover,
+  button.uni__toggle:focus-visible { background: var(--surface); }
+  .uni__toggle--static {
+    cursor: default;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  .uni__name { font-size: var(--step-1); letter-spacing: 0.08em; }
+  .uni--soon .uni__name { color: var(--text-muted); }
+  .uni__status {
+    font-size: 0.625rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .uni__chev {
+    display: inline-flex;
+    color: var(--accent);
+    transition: transform 0.28s var(--ease);
+  }
+  .uni.is-expanded .uni__chev { transform: rotate(180deg); }
+
+  /* Acordeón: 0fr → 1fr anima el alto sin números mágicos. */
+  .uni__panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.32s var(--ease);
+  }
+  .uni.is-expanded .uni__panel { grid-template-rows: 1fr; }
+  .uni__list { overflow: hidden; list-style: none; padding: 0; margin: 0; }
+
+  .uni__link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.7rem var(--gutter) 0.7rem calc(var(--gutter) + 0.75rem);
+    border-left: 2px solid transparent;
+    transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+  }
+  .uni__link:hover,
+  .uni__link:focus-visible {
+    border-left-color: var(--accent);
+    background: var(--surface);
+  }
+  .uni__link-name {
+    font-size: var(--step-0);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--text-strong);
+  }
+  .uni__link-tag { font-size: var(--step--1); color: var(--text-muted); }
+  .uni__list li:last-child .uni__link { margin-bottom: 0.5rem; }
+
+  .nav-drawer__foot {
+    padding: 1.1rem var(--gutter);
+    border-top: 1px solid var(--border);
+  }
+  .nav-drawer__foot-link {
+    font-size: var(--step--1);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text-strong);
+    transition: color 0.2s var(--ease);
+  }
+  .nav-drawer__foot-link:hover { color: var(--accent); }
+</style>

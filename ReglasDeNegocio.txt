@@ -1,2 +1,112 @@
-REGLAS DE NEGOCIO
+REGLAS DE NEGOCIO — KOVA
+=========================
+(Brief de marca provisto por el cliente. Referencia para todo el equipo:
+copy, paleta, tipografía y tono deben salir de acá, no inventarse.)
 
+1. CONCEPTO
+-----------
+KOVA es lujo cotidiano, tecnología con propósito y diseño con intención.
+No es una marca que vende productos: selecciona y desarrolla objetos que
+hacen la vida más simple, cómoda y linda, sin elegir entre funcionalidad
+y estética.
+
+Marca madre: KOVA. Primer universo: KOVA PETS. Próximos: KOVA HOME,
+KOVA BEAUTY, KOVA WELLNESS.
+
+Valores (K·O·V·A):
+  Knowledge     — investigar y seleccionar con criterio.
+  Originality   — diseño e innovación, lejos de lo genérico.
+  Value         — calidad, funcionalidad y durabilidad reales.
+  Adaptability  — evoluciona con las nuevas formas de vivir.
+
+2. HISTORIA (texto para la web)
+--------------------------------
+KOVA nació del deseo de crear algo propio. Después de más de dos décadas
+en el mundo corporativo, surgió la pregunta: ¿y si esa experiencia
+pudiera usarse para construir algo propio y generar valor de otra
+manera? No nació alrededor de un producto, sino de una idea: identificar
+pequeñas necesidades de la vida cotidiana y encontrar soluciones que
+realmente las mejoren. KOVA empieza por un universo muy cercano:
+nuestras mascotas. Con KOVA Pets buscamos transformar su cuidado a
+través de productos inteligentes, funcionales y estéticamente cuidados.
+Pero está pensada para ir mucho más allá — mascotas, hogar, belleza,
+bienestar: distintos universos, una misma filosofía: menos exceso, más
+intención.
+
+3. POSICIONAMIENTO
+-------------------
+Lujo contemporáneo accesible + tecnología + lifestyle. No es lujo
+ostentoso — nada de dorado por todos lados. El lujo de KOVA se siente en
+materiales, terminaciones, simplicidad, packaging, fotografía,
+experiencia de compra, funcionalidad, servicio y detalles.
+
+  KOVA        → "Designed for everyday luxury."
+  KOVA PETS   → "Smart care, refined living."
+
+4. PALETA DE COLORES
+---------------------
+  KOVA Carbon      #0D0D0F   logo oscuro, encabezados, fondos premium
+  Champagne Gold   #D4AF37   logo, detalles, íconos, líneas (SOLO acento)
+  Warm Ivory       #F6F2EA   fondo principal web
+  Soft Sand        #DED3C5   bloques secundarios y fondos
+  Warm Taupe       #A99A89   textos secundarios / elementos decorativos
+  Pure White       #FFFFFF   aire, fichas de producto
+  Graphite         #282726   texto cuando no se quiere negro absoluto
+
+  Proporción: 60% ivory/blanco · 25% carbon · 10% beige/taupe · 5% dorado.
+  El dorado es acento, nunca fondo dominante.
+
+5. LOGO
+-------
+Wordmark "KOVA" en serif elegante, letras finas, mucho espacio alrededor.
+Dorado sobre negro / negro sobre ivory / dorado sobre ivory en
+aplicaciones premium.
+Isotipo: la "K" dentro de un círculo + huella sutil (favicon, producto,
+redes, etiquetas, packaging).
+
+Arquitectura de marca (3 niveles):
+  Marca madre   → KOVA
+  Submarca      → KOVA PETS
+  Categoría     → PET TECH (nunca reemplaza el nombre de la submarca)
+
+6. TIPOGRAFÍA
+--------------
+  Títulos   → serif de alto contraste: Cormorant Garamond / Bodoni / Didot
+  Texto/UI  → sans serif: Manrope / Inter / Montserrat
+
+7. PERSONALIDAD DE MARCA
+--------------------------
+  Es: refined · intelligent · thoughtful · modern · trusted · warm
+  No es: barata · infantil · estridente · pet-shop tradicional · saturada
+
+8. PILARES (para la web)
+--------------------------
+  INTELLIGENT  — Tecnología que resuelve.
+  REFINED      — Diseño que eleva lo cotidiano.
+  THOUGHTFUL   — Productos elegidos con intención.
+  TRUSTED      — Calidad en la que podés confiar.
+  (KOVA Pets suma) WELLBEING — Bienestar para quienes forman parte de
+  nuestra vida.
+
+9. QUÉ TIENE QUE SENTIR EL VISITANTE
+--------------------------------------
+No: "Entré a una tienda de productos para mascotas."
+Sí: "Descubrí una marca premium de tecnología y diseño que, en esta
+primera colección, está dedicada a mascotas." Así, cuando aparezca
+KOVA HOME, la extensión se entiende naturalmente.
+
+10. COLECCIÓN KOVA PETS (pet-tech)
+------------------------------------
+  FEED   — comedero inteligente con cámara (video, voz, raciones)
+  FLOW   — fuente de agua inteligente, 3,5 L, filtrado continuo
+  PLAY   — juguete láser interactivo
+  TRACK  — collar con GPS y zonas seguras
+
+  Nota: los códigos de fábrica (DU-F14V, DU3L-AMS, DU-TC02) son del OEM
+  y no se muestran al público — de cara al cliente sólo se usan los
+  nombres KOVA (FEED / FLOW / PLAY / TRACK).
+
+11. FRASE RESUMEN DE MARCA
+-----------------------------
+  KOVA — Designed for everyday luxury.
+  Intelligent products. Thoughtful design. Refined living.

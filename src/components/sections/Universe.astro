@@ -1,0 +1,98 @@
+---
+import { universes } from '../../data/site';
+---
+<section class="section universe">
+  <div class="container">
+    <h2 data-reveal>Un mismo sistema, muchos universos</h2>
+    <div class="universe__grid">
+      {universes.map((u, i) => {
+        // Sólo KOVA PETS existe hoy — es el único cuadrado que lleva a
+        // algún lado. Los demás reaccionan igual al hover (da la sensación
+        // de "esto va a estar" / vivo) pero no son clickeables todavía.
+        const Tag = u.active ? 'a' : 'div';
+        return (
+          <Tag
+            href={u.active ? '/#coleccion' : undefined}
+            class:list={['universe__tile', { 'universe__tile--active': u.active }]}
+            data-reveal
+            style={{ '--d': i }}
+          >
+            <span class="universe__name">{u.name}</span>
+            <span class="universe__status">{u.status}</span>
+          </Tag>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Ahora es la banda que separa el hero de la colección, así que lleva
+     fondo propio (como antes hacía la fila de pilares en este lugar) y
+     su propio padding, más chico que el de una sección de contenido —
+     junto con el hero tiene que entrar en la primera pantalla. */
+  .universe {
+    background: var(--surface);
+    border-block: 1px solid var(--border);
+    padding-block: clamp(1rem, 0.6rem + 1.2vw, 1.5rem);
+  }
+  .universe h2 { font-size: var(--step-1); font-weight: 600; margin-bottom: 0.8rem; }
+
+  .universe__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+  .universe__tile {
+    min-height: 4.25rem;
+    padding: 0.8rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    cursor: default;
+    transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease),
+      border-color 0.2s var(--ease);
+  }
+  /* Los 4 responden igual al pasar el mouse — se agrandan un poco y se
+     marcan con el borde dorado — pero sólo el que es un <a> (KOVA PETS,
+     el único universo disponible) tiene puntero y lleva a algún lado. */
+  .universe__tile:hover,
+  .universe__tile:focus-visible {
+    transform: scale(1.045);
+    border-color: var(--accent);
+    box-shadow: 0 14px 26px -16px color-mix(in srgb, var(--kova-carbon) 45%, transparent);
+    z-index: 1;
+  }
+  a.universe__tile { cursor: pointer; }
+  a.universe__tile:active { transform: scale(1.01); }
+
+  .universe__tile--active {
+    background: var(--invert-bg);
+    border-color: var(--invert-bg);
+  }
+  .universe__tile--active:hover,
+  .universe__tile--active:focus-visible {
+    border-color: var(--accent);
+    box-shadow: 0 14px 26px -14px color-mix(in srgb, var(--invert-bg) 55%, transparent);
+  }
+  .universe__name {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+  .universe__tile--active .universe__name { color: var(--invert-text); }
+  .universe__status {
+    font-size: 0.625rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .universe__tile--active .universe__status { color: var(--accent); }
+
+  @media (max-width: 760px) {
+    .universe__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>
