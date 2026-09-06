@@ -26,8 +26,14 @@ const paths: Record<string, string> = {
   menu: '<path d="M3 6h18M3 12h18M3 18h18"/>',
   close: '<path d="M6 6l12 12M18 6L6 18"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  chevron: '<path d="m6 9 6 6 6-6"/>',
+  cart: '<path d="M5 7h15l-1.4 10.5a1 1 0 0 1-1 .9H7.4a1 1 0 0 1-1-.9L5 7z"/><path d="M5 7 4 3H2"/><circle cx="9" cy="21" r="1"/><circle cx="17" cy="21" r="1"/>',
   portrait: '<path d="M4 20c2-6 5-9 8-9s6 3 8 9"/><circle cx="12" cy="7" r="3"/>',
   suite: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 5-5 4 4"/><circle cx="9" cy="9" r="1.5"/>',
+  // Redes (trazo, para que combinen con el resto del set)
+  instagram: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1"/>',
+  tiktok: '<path d="M10 8.5a4.5 4.5 0 1 0 4 4.47V4c.5 2.2 2.3 3.9 4.5 4"/>',
+  whatsapp: '<path d="M4.2 20 5.5 16A8 8 0 1 1 8 18.5L4.2 20z"/><path d="M9 8.6c-.2 1.9 1 3.8 2.3 5 1.3 1.2 3.2 2.4 5 2.2"/>',
 };
 
 const d = paths[name] ?? '';

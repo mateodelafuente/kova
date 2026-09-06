@@ -4,6 +4,7 @@
  * Cada página envuelve su contenido en este layout.
  */
 import Header from '../components/Header.astro';
+import NavDrawer from '../components/NavDrawer.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 
@@ -46,6 +47,7 @@ const {
   <body>
     <a href="#main" class="visually-hidden">Saltar al contenido</a>
     <Header />
+    <NavDrawer />
     <main id="main">
       <slot />
     </main>

@@ -16,8 +16,16 @@ export const brand = {
   // Datos a completar por el cliente:
   email: '[correo]',
   instagram: '[@instagram]',
+  tiktok: '[@tiktok]',
   whatsapp: '[whatsapp]',
 } as const;
+
+/** Redes de la marca — el href queda en '#' hasta tener las cuentas reales. */
+export const socials: { label: string; icon: string; href: string }[] = [
+  { label: 'Instagram', icon: 'instagram', href: '#' },
+  { label: 'TikTok', icon: 'tiktok', href: '#' },
+  { label: 'WhatsApp', icon: 'whatsapp', href: '#' },
+];
 
 export type NavItem = { label: string; href: string };
 
@@ -37,11 +45,11 @@ export const pillars: Pillar[] = [
   { name: 'Trusted', desc: 'Calidad en la que podés confiar.', icon: 'shield' },
 ];
 
-export type Universe = { name: string; status: string; active: boolean };
+export type Universe = { slug: string; name: string; status: string; active: boolean };
 
 export const universes: Universe[] = [
-  { name: 'KOVA PETS', status: 'Disponible', active: true },
-  { name: 'KOVA HOME', status: 'Próximamente', active: false },
-  { name: 'KOVA BEAUTY', status: 'Próximamente', active: false },
-  { name: 'KOVA WELLNESS', status: 'Próximamente', active: false },
+  { slug: 'pets', name: 'KOVA PETS', status: 'Disponible', active: true },
+  { slug: 'home', name: 'KOVA HOME', status: 'Próximamente', active: false },
+  { slug: 'beauty', name: 'KOVA BEAUTY', status: 'Próximamente', active: false },
+  { slug: 'wellness', name: 'KOVA WELLNESS', status: 'Próximamente', active: false },
 ];

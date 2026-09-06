@@ -10,10 +10,16 @@ interface Props {
   sub?: boolean;
   /** Tamaño del isotipo en px */
   size?: number;
+  /** Wordmark más grande (para el header centrado) */
+  large?: boolean;
 }
-const { sub = true, size = 28 } = Astro.props;
+const { sub = true, size = 28, large = false } = Astro.props;
 ---
-<a href="/" class="brandmark" aria-label={`${brand.name} ${brand.sub}`}>
+<a
+  href="/"
+  class:list={['brandmark', { 'brandmark--lg': large }]}
+  aria-label={`${brand.name} ${brand.sub}`}
+>
   <span class="brandmark__iso" style={`--iso-size:${size}px`}>K</span>
   <span class="brandmark__word">{brand.name}</span>
   {sub && <span class="brandmark__sub">{brand.sub}</span>}
@@ -56,5 +62,13 @@ const { sub = true, size = 28 } = Astro.props;
     letter-spacing: 0.3em;
     color: var(--text-muted);
     padding-top: 0.2rem;
+  }
+
+  .brandmark--lg { gap: 0.8rem; }
+  .brandmark--lg .brandmark__word { font-size: 1.6rem; letter-spacing: 0.22em; }
+  .brandmark--lg .brandmark__sub { font-size: 0.625rem; }
+
+  @media (max-width: 560px) {
+    .brandmark--lg .brandmark__word { font-size: 1.35rem; }
   }
 </style>

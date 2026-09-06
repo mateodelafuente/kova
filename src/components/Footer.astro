@@ -3,7 +3,8 @@
  * Pie del sitio: alta al newsletter + navegación secundaria + firma de marca.
  * Siempre sobre fondo carbón (invariante entre temas), como en el brief.
  */
-import { brand, productNav } from '../data/site';
+import { brand, productNav, socials } from '../data/site';
+import Icon from './Icon.astro';
 
 const help = [
   { label: 'Envíos', href: '/envios' },
@@ -41,6 +42,19 @@ const help = [
           {help.map((h) => <a href={h.href} class="link-underline">{h.label}</a>)}
         </div>
       </nav>
+    </div>
+
+    <div class="footer__social">
+      <span class="footer__social-label">Seguinos</span>
+      <ul class="footer__social-list">
+        {socials.map((s) => (
+          <li>
+            <a href={s.href} class="footer__social-link" aria-label={s.label}>
+              <Icon name={s.icon} size={18} />
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
 
     <div class="footer__bottom">
@@ -122,13 +136,49 @@ const help = [
     margin-bottom: 0.35rem;
   }
 
+  .footer__social {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 1.5rem;
+  }
+  .footer__social-label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--kova-taupe);
+  }
+  .footer__social-list {
+    display: flex;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .footer__social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border: 1px solid #3a3a3d;
+    color: var(--kova-sand);
+    transition: color 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .footer__social-link:hover,
+  .footer__social-link:focus-visible {
+    color: var(--kova-gold);
+    border-color: var(--kova-gold);
+    transform: translateY(-2px);
+  }
+
   .footer__bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
-    padding-top: 1.75rem;
+    padding-top: 1.5rem;
   }
   .footer__sign {
     font-family: var(--font-serif);
