@@ -136,12 +136,56 @@ button:disabled { cursor: default; }
   background: color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
-/* Botón inactivo (ej. "Agregar al carrito" mientras no hay lógica) */
 .btn:disabled, .btn-ghost:disabled {
-  opacity: 0.55;
   transform: none;
   box-shadow: none;
   cursor: default;
+}
+
+/* ---- Reflejo "vivo" en los botones ----
+   Además del click, todos los botones tienen vida estando quietos: un
+   reflejo les recorre la superficie cada pocos segundos. Cuando lo ves,
+   sabés que la página responde; si se traba, se nota que se frenó.
+   (.btn--soon es el mismo efecto para botones con estilo propio, como el
+   "Enviar" del footer, que no llevan la clase .btn). */
+.btn, .btn-ghost, .btn--soon {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn::after, .btn-ghost::after, .btn--soon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    transparent 12%,
+    color-mix(in srgb, var(--kova-white) 18%, transparent) 47%,
+    color-mix(in srgb, var(--kova-white) 18%, transparent) 53%,
+    transparent 88%
+  );
+  transform: translateX(-170%);
+  /* linear + ciclo largo = deriva lenta, "cámara lenta"; mitad del tiempo
+     cruza el botón, mitad descansa fuera de cuadro. */
+  animation: btn-sheen 7s linear infinite;
+}
+/* Botón de contorno (fondo claro): el reflejo va en dorado y en fase
+   opuesta, así un par primario + secundario nunca brillan a la vez. */
+.btn-ghost::after {
+  background: linear-gradient(
+    110deg,
+    transparent 12%,
+    color-mix(in srgb, var(--accent) 20%, transparent) 47%,
+    color-mix(in srgb, var(--accent) 20%, transparent) 53%,
+    transparent 88%
+  );
+  animation-delay: -3.5s;
+}
+@keyframes btn-sheen {
+  0%   { transform: translateX(-170%); }
+  50%  { transform: translateX(170%); }
+  100% { transform: translateX(170%); }
 }
 
 /* ---- Links de navegación (header, footer, "ver todo"...) ----
