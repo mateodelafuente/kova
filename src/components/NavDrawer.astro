@@ -2,23 +2,14 @@
 /**
  * Drawer de universos: se abre desde el botón "Universos" del header.
  * Panel a pantalla completa que entra desde la izquierda. Cada universo
- * disponible es un acordeón con sus productos; los que todavía no están
- * aparecen en gris con "Próximamente".
+ * disponible lleva a su catálogo (/productos con filtros); los que todavía
+ * no están aparecen en gris con "Próximamente".
  *
  * Se monta en BaseLayout (no dentro del <header>): el backdrop-filter del
  * header crea un containing block y le rompería el position:fixed.
  */
 import Icon from './Icon.astro';
 import { universes } from '../data/site';
-import { productsByUniverse } from '../data/products';
-
-const menu = universes.map((u) => ({
-  ...u,
-  items: u.active ? productsByUniverse(u.slug) : [],
-}));
-// El primer universo con productos arranca abierto — hoy es el único con
-// contenido, así que mostrarlo desplegado evita un click de más.
-const firstOpen = menu.find((u) => u.items.length > 0)?.slug;
 ---
 <div class="nav-drawer" id="nav-drawer" data-drawer>
   <div class="nav-drawer__backdrop" data-drawer-close></div>
@@ -32,38 +23,17 @@ const firstOpen = menu.find((u) => u.items.length > 0)?.slug;
     </div>
 
     <nav class="nav-drawer__body">
-      {menu.map((u) => (
-        <div class:list={['uni', { 'uni--soon': u.items.length === 0, 'is-expanded': u.slug === firstOpen }]}>
-          {u.items.length > 0 ? (
-            <>
-              <button
-                type="button"
-                class="uni__toggle"
-                data-uni-toggle
-                aria-expanded={u.slug === firstOpen ? 'true' : 'false'}
-                aria-controls={`uni-${u.slug}`}
-              >
-                <span class="uni__name">{u.name}</span>
-                <span class="uni__chev"><Icon name="chevron" size={18} /></span>
-              </button>
-              <div class="uni__panel" id={`uni-${u.slug}`}>
-                <ul class="uni__list">
-                  {u.items.map((p) => (
-                    <li>
-                      <a class="uni__link" href={`/productos/${p.slug}`}>
-                        <span class="uni__link-name">{p.name}</span>
-                        <span class="uni__link-tag">{p.tagline}</span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </>
-          ) : (
-            <div class="uni__toggle uni__toggle--static">
-              <span class="uni__name">{u.name}</span>
-              <span class="uni__status">{u.status}</span>
-            </div>
+      {universes.map((u) => (
+        <div class:list={['uni', { 'uni--soon': !u.active }]}>
+          <div class="uni__row">
+            <span class="uni__name">{u.name}</span>
+            <span class="uni__status">{u.status}</span>
+          </div>
+          {u.active && (
+            <a class="uni__cta" href={`/productos?u=${u.slug}`}>
+              Ver productos
+              <Icon name="arrow" size={16} />
+            </a>
           )}
         </div>
       ))}
@@ -99,15 +69,6 @@ const firstOpen = menu.find((u) => u.items.length > 0)?.slug;
     closeEls.forEach((el) => el.addEventListener('click', close));
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && drawer.classList.contains('is-open')) close();
-    });
-
-    drawer.querySelectorAll<HTMLElement>('[data-uni-toggle]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const uni = btn.closest('.uni');
-        if (!uni) return;
-        const expanded = uni.classList.toggle('is-expanded');
-        btn.setAttribute('aria-expanded', String(expanded));
-      });
     });
   }
 </script>
@@ -155,7 +116,7 @@ const firstOpen = menu.find((u) => u.items.length > 0)?.slug;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.15rem var(--gutter);
+    padding: 1.15rem 1.5rem;
     border-bottom: 1px solid var(--border);
   }
   .nav-drawer__title {
@@ -175,75 +136,52 @@ const firstOpen = menu.find((u) => u.items.length > 0)?.slug;
 
   .nav-drawer__body { flex: 1; padding: 0.5rem 0; }
 
-  .uni { border-bottom: 1px solid var(--border-soft); }
-  .uni__toggle {
-    width: 100%;
+  .uni {
+    padding: 1.1rem 1.5rem;
+    border-bottom: 1px solid var(--border-soft);
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .uni__row {
+    display: flex;
+    align-items: baseline;
     justify-content: space-between;
     gap: 1rem;
-    padding: 1.05rem var(--gutter);
-    text-align: left;
+  }
+  .uni__name {
     font-family: var(--font-serif);
+    font-size: var(--step-1);
+    letter-spacing: 0.08em;
     color: var(--text-strong);
-    transition: background-color 0.2s var(--ease);
   }
-  button.uni__toggle:hover,
-  button.uni__toggle:focus-visible { background: var(--surface); }
-  .uni__toggle--static {
-    cursor: default;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
-  }
-  .uni__name { font-size: var(--step-1); letter-spacing: 0.08em; }
   .uni--soon .uni__name { color: var(--text-muted); }
   .uni__status {
     font-size: 0.625rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--text-muted);
+    white-space: nowrap;
   }
-  .uni__chev {
+  .uni--soon .uni__status { color: var(--accent); }
+
+  .uni__cta {
+    align-self: flex-start;
     display: inline-flex;
-    color: var(--accent);
-    transition: transform 0.28s var(--ease);
-  }
-  .uni.is-expanded .uni__chev { transform: rotate(180deg); }
-
-  /* Acordeón: 0fr → 1fr anima el alto sin números mágicos. */
-  .uni__panel {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.32s var(--ease);
-  }
-  .uni.is-expanded .uni__panel { grid-template-rows: 1fr; }
-  .uni__list { overflow: hidden; list-style: none; padding: 0; margin: 0; }
-
-  .uni__link {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-    padding: 0.7rem var(--gutter) 0.7rem calc(var(--gutter) + 0.75rem);
-    border-left: 2px solid transparent;
-    transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
-  }
-  .uni__link:hover,
-  .uni__link:focus-visible {
-    border-left-color: var(--accent);
-    background: var(--surface);
-  }
-  .uni__link-name {
-    font-size: var(--step-0);
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--step--1);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     font-weight: 600;
-    letter-spacing: 0.06em;
     color: var(--text-strong);
+    transition: color 0.2s var(--ease), gap 0.2s var(--ease);
   }
-  .uni__link-tag { font-size: var(--step--1); color: var(--text-muted); }
-  .uni__list li:last-child .uni__link { margin-bottom: 0.5rem; }
+  .uni__cta:hover,
+  .uni__cta:focus-visible { color: var(--accent); gap: 0.7rem; }
 
   .nav-drawer__foot {
-    padding: 1.1rem var(--gutter);
+    padding: 1.1rem 1.5rem;
     border-top: 1px solid var(--border);
   }
   .nav-drawer__foot-link {

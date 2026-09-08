@@ -35,6 +35,8 @@ export interface Product {
   icon: 'feed' | 'flow' | 'play' | 'track';
   /** Universo al que pertenece — hoy todos 'pets' (ver src/data/site.ts) */
   universe: string;
+  /** Categoría dentro del universo — para el filtro de /productos */
+  category: string;
   /** Foto real del producto — src/img/producto-<slug>.webp. Si falta, se usa el placeholder. */
   photo?: ImageMetadata;
   /** Filas de la tabla de especificaciones en la ficha de producto */
@@ -54,6 +56,7 @@ export const products: Product[] = [
     price: null,
     icon: 'feed',
     universe: 'pets',
+    category: 'Alimentación',
     photo: photoFeed,
     specs: [
       { label: 'Capacidad de la tolva', value: TBD },
@@ -76,6 +79,7 @@ export const products: Product[] = [
     price: null,
     icon: 'flow',
     universe: 'pets',
+    category: 'Hidratación',
     photo: photoFlow,
     specs: [
       { label: 'Capacidad', value: '3,5 L' },
@@ -97,6 +101,7 @@ export const products: Product[] = [
     price: null,
     icon: 'play',
     universe: 'pets',
+    category: 'Juego',
     specs: [
       { label: 'Modos de juego', value: TBD },
       { label: 'Temporizador', value: TBD },
@@ -116,6 +121,7 @@ export const products: Product[] = [
     price: null,
     icon: 'track',
     universe: 'pets',
+    category: 'Seguridad',
     photo: photoTrack,
     specs: [
       { label: 'Conectividad', value: TBD },
@@ -136,4 +142,9 @@ export const featuredProducts = products.filter((p) => p.featured);
 /** Productos de un universo (para el drawer del header y las fichas). */
 export function productsByUniverse(slug: string): Product[] {
   return products.filter((p) => p.universe === slug);
+}
+
+/** Categorías presentes en un universo, en orden de aparición (para el filtro). */
+export function categoriesForUniverse(slug: string): string[] {
+  return [...new Set(productsByUniverse(slug).map((p) => p.category))];
 }

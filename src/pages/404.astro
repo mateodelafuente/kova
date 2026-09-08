@@ -1,0 +1,40 @@
+---
+/**
+ * Página 404 con la marca. Astro la sirve sola para cualquier ruta que no
+ * exista (en hostings estáticos como Vercel/Netlify sale automáticamente).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Página no encontrada" description="Esta página no existe.">
+  <section class="section notfound">
+    <div class="container notfound__inner">
+      <span class="notfound__code">404</span>
+      <h1>Esta página no existe.</h1>
+      <p>Puede que el enlace esté roto o que la página se haya movido.</p>
+      <div class="notfound__actions">
+        <a href="/" class="btn">Volver al inicio</a>
+        <a href="/productos" class="btn-ghost">Ver la colección</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound { min-height: 58vh; display: grid; place-items: center; }
+  .notfound__inner {
+    max-width: 34rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .notfound__code {
+    font-family: var(--font-serif);
+    font-size: var(--step-4);
+    line-height: 1;
+    color: var(--accent);
+  }
+  .notfound__inner h1 { font-size: var(--step-2); font-weight: 600; }
+  .notfound__inner p { font-size: var(--step-0); color: var(--text-muted); }
+  .notfound__actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.6rem; }
+</style>

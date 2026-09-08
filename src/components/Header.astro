@@ -4,6 +4,7 @@
  * drawer de universos, la marca centrada, y a la derecha el carrito.
  * El drawer en sí (NavDrawer) se monta en BaseLayout, fuera del <header>,
  * porque el backdrop-filter de acá le rompería el position:fixed.
+ * Se compacta al scrollear (clase .is-compact) para despegarse menos.
  * Sin switch de tono — KOVA usa una sola paleta (Warm), es identidad de marca.
  */
 import BrandMark from './BrandMark.astro';
@@ -30,10 +31,21 @@ import Icon from './Icon.astro';
     <div class="header__zone header__zone--right">
       <a href="/carrito" class="cart-link" aria-label="Ver el carrito">
         <span class="cart-link__icon"></span>
+        <span class="cart-link__count" data-cart-count hidden>0</span>
       </a>
     </div>
   </div>
 </header>
+
+<script>
+  // Compacta el header apenas se scrollea un poco.
+  const header = document.getElementById('site-header');
+  if (header) {
+    const onScroll = () => header.classList.toggle('is-compact', window.scrollY > 60);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+</script>
 
 <style>
   .header {
@@ -43,6 +55,11 @@ import Icon from './Icon.astro';
     background: color-mix(in srgb, var(--bg) 88%, transparent);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.25s var(--ease), background-color 0.25s var(--ease);
+  }
+  .header.is-compact {
+    background: color-mix(in srgb, var(--bg) 96%, transparent);
+    box-shadow: 0 10px 24px -18px color-mix(in srgb, var(--kova-carbon) 60%, transparent);
   }
   /* Tres columnas: la del medio se ajusta a la marca, las de los costados
      reparten el resto en partes iguales, así la marca queda centrada. */
@@ -52,7 +69,10 @@ import Icon from './Icon.astro';
     align-items: center;
     gap: 1rem;
     padding-block: 0.7rem;
+    transition: padding-block 0.25s var(--ease);
   }
+  .header.is-compact .header__inner { padding-block: 0.4rem; }
+
   .header__zone { display: flex; align-items: center; }
   .header__zone--left { justify-self: start; }
   .header__zone--right { justify-self: end; }
@@ -74,6 +94,7 @@ import Icon from './Icon.astro';
   .menu-btn__label { line-height: 1; }
 
   .cart-link {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -81,7 +102,7 @@ import Icon from './Icon.astro';
     height: 1.85rem;
     color: var(--text-strong);
     cursor: pointer;
-    transition: color 0.2s var(--ease), transform 0.18s var(--ease);
+    transition: color 0.2s var(--ease), transform 0.18s var(--ease-spring);
   }
   .cart-link:hover { color: var(--accent); transform: translateY(-2px); }
   .cart-link:active { transform: translateY(0) scale(0.92); }
@@ -98,6 +119,26 @@ import Icon from './Icon.astro';
     background-color: currentColor;
     -webkit-mask: url('../img/carritoCompras.png') center / contain no-repeat;
     mask: url('../img/carritoCompras.png') center / contain no-repeat;
+  }
+
+  /* Globito con la cantidad — oculto en 0, listo para cuando el carrito
+     tenga lógica (basta con sacar el atributo [hidden] y setear el número). */
+  .cart-link__count {
+    position: absolute;
+    top: -0.35rem;
+    right: -0.45rem;
+    min-width: 1.05rem;
+    height: 1.05rem;
+    padding: 0 0.25rem;
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+    color: var(--kova-carbon);
+    font-family: var(--font-sans);
+    font-size: 0.625rem;
+    font-weight: 700;
+    line-height: 1;
+    border-radius: 999px;
   }
 
   /* En pantallas chicas el botón queda sólo con el ícono. */

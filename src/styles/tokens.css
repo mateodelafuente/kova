@@ -38,6 +38,9 @@
 
   /* ---- Movimiento ---- */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Rebota apenas al soltar — le da a los botones una animación
+     "característica": si el click responde, la ves; si algo se traba, no. */
+  --ease-spring: cubic-bezier(0.34, 1.45, 0.5, 1);
 }
 
 /* =========================================================================

@@ -1,34 +1,178 @@
 ---
 /**
- * Grilla con toda la colección. Es el destino de "Ver todo" desde la home.
+ * Catálogo de un universo. Destino de "Ver productos" en el drawer y de
+ * "Ver todo" en la home. Trae barra de filtros por categoría + orden,
+ * que funcionan del lado del cliente (mostrar/ocultar y reordenar).
+ * Hoy sólo existe el universo PETS, así que el filtro de universo todavía
+ * no hace falta — la barra ya queda armada para sumar categorías/universos.
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductCard from '../../components/ProductCard.astro';
-import { products } from '../../data/products';
+import { productsByUniverse, categoriesForUniverse } from '../../data/products';
+
+const universeSlug = 'pets';
+const items = productsByUniverse(universeSlug);
+const categories = categoriesForUniverse(universeSlug);
 ---
-<BaseLayout title="Colección" description="Toda la colección KOVA PETS — comederos, fuentes y accesorios inteligentes.">
+<BaseLayout
+  title="Colección"
+  description="Toda la colección KOVA PETS — comederos, fuentes y accesorios inteligentes."
+>
   <section class="section">
     <div class="container">
       <span class="eyebrow">KOVA PETS</span>
       <h1 class="prods__title">La colección</h1>
       <p class="prods__lead">Cuatro productos, un sistema.</p>
 
-      <div class="prods__grid">
-        {products.map((p, i) => <ProductCard product={p} revealDelay={i} />)}
+      <div class="prods__bar">
+        <div class="prods__chips" role="group" aria-label="Filtrar por categoría">
+          <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">
+            Todos
+          </button>
+          {categories.map((c) => (
+            <button type="button" class="chip" data-filter={c} aria-pressed="false">{c}</button>
+          ))}
+        </div>
+
+        <label class="prods__sort">
+          <span>Ordenar</span>
+          <select data-sort>
+            <option value="featured">Destacados</option>
+            <option value="az">Nombre A–Z</option>
+          </select>
+        </label>
       </div>
+
+      <p class="prods__count" data-count aria-live="polite">{items.length} productos</p>
+
+      <div class="prods__grid" data-grid>
+        {items.map((p, i) => (
+          <div class="prod-cell" data-category={p.category} data-name={p.name} style={{ '--i': i }}>
+            <ProductCard product={p} revealDelay={i} />
+          </div>
+        ))}
+      </div>
+
+      <p class="prods__empty" data-empty hidden>No hay productos en esta categoría.</p>
     </div>
   </section>
 </BaseLayout>
 
+<script>
+  const grid = document.querySelector<HTMLElement>('[data-grid]');
+  if (grid) {
+    const cells = Array.from(grid.querySelectorAll<HTMLElement>('.prod-cell'));
+    const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('.chip'));
+    const sort = document.querySelector<HTMLSelectElement>('[data-sort]');
+    const count = document.querySelector<HTMLElement>('[data-count]');
+    const empty = document.querySelector<HTMLElement>('[data-empty]');
+    const baseOrder = cells.slice();
+    let filter = 'all';
+
+    const apply = () => {
+      let visible = 0;
+      cells.forEach((cell) => {
+        const show = filter === 'all' || cell.dataset.category === filter;
+        cell.hidden = !show;
+        if (show) visible++;
+      });
+      if (count) count.textContent = `${visible} ${visible === 1 ? 'producto' : 'productos'}`;
+      if (empty) empty.hidden = visible !== 0;
+
+      const ordered =
+        sort?.value === 'az'
+          ? baseOrder.slice().sort((a, b) => (a.dataset.name || '').localeCompare(b.dataset.name || ''))
+          : baseOrder;
+      ordered.forEach((cell) => grid.appendChild(cell));
+    };
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        filter = chip.dataset.filter || 'all';
+        chips.forEach((c) => {
+          const on = c === chip;
+          c.classList.toggle('is-active', on);
+          c.setAttribute('aria-pressed', String(on));
+        });
+        apply();
+      });
+    });
+    sort?.addEventListener('change', apply);
+  }
+</script>
+
 <style>
   .prods__title { font-size: var(--step-3); font-weight: 500; margin-top: 0.4rem; }
   .prods__lead { font-size: var(--step-0); color: var(--text-muted); margin-top: 0.4rem; }
+
+  .prods__bar {
+    margin-top: clamp(1.5rem, 1rem + 3vw, 2.25rem);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .prods__chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chip {
+    padding: 0.5rem 0.95rem;
+    border: 1px solid var(--border);
+    font-size: var(--step--1);
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    transition: color 0.2s var(--ease), border-color 0.2s var(--ease),
+      background-color 0.2s var(--ease), transform 0.16s var(--ease-spring);
+  }
+  .chip:hover { border-color: var(--accent); color: var(--text-strong); }
+  .chip.is-active {
+    background: var(--invert-bg);
+    border-color: var(--invert-bg);
+    color: var(--invert-text);
+  }
+
+  .prods__sort {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: var(--step--1);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .prods__sort select {
+    font: inherit;
+    letter-spacing: 0.06em;
+    padding: 0.5rem 0.6rem;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-strong);
+    cursor: pointer;
+  }
+
+  .prods__count {
+    margin-top: 1rem;
+    font-size: var(--step--1);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
   .prods__grid {
-    margin-top: clamp(1.5rem, 1rem + 3vw, 2.5rem);
+    margin-top: 0.9rem;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1.25rem;
   }
+  .prod-cell[hidden] { display: none; }
+
+  .prods__empty {
+    margin-top: 2rem;
+    font-size: var(--step-0);
+    color: var(--text-muted);
+  }
+
   @media (max-width: 960px) { .prods__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 520px) { .prods__grid { grid-template-columns: 1fr; } }
 </style>

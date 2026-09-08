@@ -27,6 +27,9 @@ body {
 
 img, picture, svg, video { display: block; max-width: 100%; }
 
+/* Que [hidden] gane siempre, aunque el elemento tenga su propio display. */
+[hidden] { display: none !important; }
+
 h1, h2, h3, h4 {
   font-family: var(--font-serif);
   font-weight: 500;
@@ -41,7 +44,19 @@ a { color: inherit; text-decoration: none; }
 
 button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
 
+/* ---- Todo lo presionable "responde" ----
+   Cualquier <button> se hunde apenas al apretarlo y vuelve con un rebote
+   corto (--ease-spring). Es la señal de que el click llegó: cuando la ves,
+   sabés que funciona; cuando no aparece, sabés que algo se trabó.
+   Los .btn / .btn-ghost suman su propio hover más abajo. */
+button { transition: transform 0.16s var(--ease-spring); }
+button:active:not(:disabled) { transform: scale(0.94); }
+button:disabled { cursor: default; }
+
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Fundido entre páginas (navegador que lo soporte; el resto navega normal). */
+@view-transition { navigation: auto; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
@@ -87,7 +102,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   padding: 1rem 1.9rem;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease),
+  transition: transform 0.16s var(--ease-spring), box-shadow 0.18s var(--ease),
     background-color 0.18s var(--ease), color 0.18s var(--ease),
     border-color 0.18s var(--ease);
 }
@@ -102,7 +117,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   box-shadow: 0 12px 22px -10px color-mix(in srgb, var(--btn-bg) 55%, transparent);
 }
 .btn:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.96);
   box-shadow: 0 1px 2px color-mix(in srgb, var(--btn-bg) 25%, transparent);
 }
 
@@ -117,8 +132,16 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   transform: translateY(-2px);
 }
 .btn-ghost:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.96);
   background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+/* Botón inactivo (ej. "Agregar al carrito" mientras no hay lógica) */
+.btn:disabled, .btn-ghost:disabled {
+  opacity: 0.55;
+  transform: none;
+  box-shadow: none;
+  cursor: default;
 }
 
 /* ---- Links de navegación (header, footer, "ver todo"...) ----
